@@ -1,5 +1,5 @@
-import { Customer } from '@/entities';
-import { CustomerRepository } from '@/repositories';
+import { Customer } from './entities';
+import { CustomerRepository } from './repositories';
 
 export type CreateOneCustomerData = {
   name: string;

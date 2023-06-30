@@ -1,7 +1,6 @@
-import 'module-alias/register';
 import express, { Request, Response } from 'express';
-import { CustomerInMemoryRepository } from '@/repositories';
-import { Customers } from '@/services';
+import { CustomerInMemoryRepository } from './repositories';
+import { Customers } from './services';
 
 const app = express();
 const port = 3000;
