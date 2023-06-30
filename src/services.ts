@@ -13,17 +13,20 @@ export interface CustomerService {
 }
 
 export class Customers implements CustomerService {
-  constructor(private readonly customerRepository: CustomerRepository) { }
+  constructor(private readonly customerRepository: CustomerRepository) {}
 
   async addOne(data: CreateOneCustomerData): Promise<Customer> {
-
     // Check if customer already exists by document
-    const customerByDocument = await this.customerRepository.findOneByDocument(data.document);
-    if (customerByDocument) throw new Error('Customer already exists')
+    const customerByDocument = await this.customerRepository.findOneByDocument(
+      data.document,
+    );
+    if (customerByDocument) throw new Error('Customer already exists');
 
     // Check if customer already exists by email
-    const customerByEmail = await this.customerRepository.findOneByEmail(data.email);
-    if (customerByEmail) throw new Error('Customer already exists')
+    const customerByEmail = await this.customerRepository.findOneByEmail(
+      data.email,
+    );
+    if (customerByEmail) throw new Error('Customer already exists');
 
     return await this.customerRepository.createOne(data);
   }

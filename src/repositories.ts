@@ -4,7 +4,10 @@ const generateId = () => {
   return Math.random().toString(36).substr(2, 9);
 };
 
-export type CreateOneCustomerData = Omit<Customer, 'id' | 'createdAt' | 'updatedAt' | 'deletedAt'>;
+export type CreateOneCustomerData = Omit<
+  Customer,
+  'id' | 'createdAt' | 'updatedAt' | 'deletedAt'
+>;
 
 export interface CustomerRepository {
   createOne(data: CreateOneCustomerData): Promise<Customer>;
