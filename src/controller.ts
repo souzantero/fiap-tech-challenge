@@ -1,7 +1,7 @@
 import { Customer } from './entity';
 import { AddOneCustomerError, CustomerService } from './service';
 
-export enum HttpStatusCode {
+export enum HttpStatus {
   Ok = 200,
   Created = 201,
   NoContent = 204,
@@ -11,34 +11,31 @@ export enum HttpStatusCode {
 }
 
 export type HttpResult<T> = {
-  statusCode: HttpStatusCode;
+  code: HttpStatus;
   body?: T;
 };
 
 export class HttpError extends Error {
-  constructor(public readonly statusCode: HttpStatusCode, message: string) {
+  constructor(public readonly code: HttpStatus, message: string) {
     super(message);
   }
 }
 
 export class InternalServerError extends HttpError {
   constructor(stack?: string) {
-    super(HttpStatusCode.InternalServer, 'Internal server error');
+    super(HttpStatus.InternalServer, 'Internal server error');
     this.stack = stack;
   }
 }
 
 export class BadRequestError extends HttpError {
   constructor(message: string) {
-    super(HttpStatusCode.BadRequest, message);
+    super(HttpStatus.BadRequest, message);
   }
 }
 
-export const httpResult = <T>(
-  statusCode: HttpStatusCode,
-  body?: T,
-): HttpResult<T> => ({
-  statusCode,
+export const httpResult = <T>(code: HttpStatus, body?: T): HttpResult<T> => ({
+  code,
   body,
 });
 
@@ -67,7 +64,7 @@ export class CustomerHttpController {
         document,
       });
 
-      return httpResult(HttpStatusCode.Created, customer);
+      return httpResult(HttpStatus.Created, customer);
     } catch (error) {
       if (error instanceof AddOneCustomerError) {
         throw new BadRequestError(error.message);
@@ -85,10 +82,10 @@ export class CustomerHttpController {
     const customer = await this.customerService.findOneByDocument(document);
 
     if (!customer) {
-      throw new HttpError(HttpStatusCode.NotFound, 'Customer not found');
+      throw new HttpError(HttpStatus.NotFound, 'Customer not found');
     }
 
-    return httpResult(HttpStatusCode.Ok, customer);
+    return httpResult(HttpStatus.Ok, customer);
   }
 }
 

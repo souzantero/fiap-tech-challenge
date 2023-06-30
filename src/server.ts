@@ -25,7 +25,7 @@ app.use(express.urlencoded({ extended: true }));
 
 const handleHttpError = (error: unknown, res: Response) => {
   if (error instanceof HttpError) {
-    return res.status(error.statusCode).json({
+    return res.status(error.code).json({
       message: error.message,
     });
   }
@@ -38,7 +38,7 @@ const handleHttpError = (error: unknown, res: Response) => {
 app.post('/customers', async (req: Request, res: Response) => {
   try {
     const result = await customerController.addOne(req.body);
-    return res.status(result.statusCode).json(result.body);
+    return res.status(result.code).json(result.body);
   } catch (error) {
     handleHttpError(error, res);
   }
@@ -48,7 +48,7 @@ app.get('/customers/:document', async (req: Request, res: Response) => {
   try {
     const { document } = req.params;
     const result = await customerController.findOneByDocument({ document });
-    return res.status(result.statusCode).json(result.body);
+    return res.status(result.code).json(result.body);
   } catch (error) {
     handleHttpError(error, res);
   }
