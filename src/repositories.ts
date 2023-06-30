@@ -1,23 +1,44 @@
 import { Customer } from '@/entities';
 
+const generateId = () => {
+  return Math.random().toString(36).substr(2, 9);
+};
+
+export type CreateOneCustomerData = Omit<Customer, 'id' | 'createdAt' | 'updatedAt' | 'deletedAt'>;
+
 export interface CustomerRepository {
-  getOneByDocument(document: string): Promise<Customer | null>;
+  createOne(data: CreateOneCustomerData): Promise<Customer>;
+  findOneByDocument(document: string): Promise<Customer | null>;
+  findOneByEmail(email: string): Promise<Customer | null>;
 }
 
 export class CustomerInMemoryRepository implements CustomerRepository {
-  private readonly customers: Customer[] = [
-    {
-      id: '1',
-      createdAt: new Date(),
-      name: 'John Doe',
-      email: '',
-      document: '12345678900',
-    },
-  ];
+  private readonly customers: Customer[] = [];
 
-  async getOneByDocument(document: string): Promise<Customer | null> {
+  async createOne(data: CreateOneCustomerData): Promise<Customer> {
+    const customer = {
+      id: generateId(),
+      createdAt: new Date(),
+      name: data.name,
+      email: data.email,
+      document: data.document,
+    };
+
+    this.customers.push(customer);
+
+    return customer;
+  }
+
+  async findOneByDocument(document: string): Promise<Customer | null> {
     const customer = this.customers.find(
       (customer) => customer.document === document,
+    );
+    return customer || null;
+  }
+
+  async findOneByEmail(email: string): Promise<Customer | null> {
+    const customer = this.customers.find(
+      (customer) => customer.email === email,
     );
     return customer || null;
   }

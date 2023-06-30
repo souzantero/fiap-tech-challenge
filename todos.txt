@@ -1,0 +1,2 @@
+- Setup rimraf for build
+- Setup debug script
