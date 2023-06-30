@@ -12,7 +12,6 @@ const customerService = new Customers(customerRepository);
 
 app.get('/customers/:document', async (req: Request, res: Response) => {
   const { document } = req.params;
-  console.log(document);
   const customer = await customerService.getOneByDocument(document);
   res.json(customer);
 });
