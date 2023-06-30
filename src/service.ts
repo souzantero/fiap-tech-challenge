@@ -1,5 +1,5 @@
-import { Customer } from './entities';
-import { CustomerRepository } from './repositories';
+import { Customer } from './entity';
+import { CustomerRepository } from './repository';
 
 export type CreateOneCustomerData = {
   name: string;
@@ -12,6 +12,13 @@ export interface CustomerService {
   findOneByDocument(document: string): Promise<Customer | null>;
 }
 
+export class AddOneCustomerError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'AddOneCustomerError';
+  }
+}
+
 export class Customers implements CustomerService {
   constructor(private readonly customerRepository: CustomerRepository) {}
 
@@ -20,20 +27,20 @@ export class Customers implements CustomerService {
     const customerByDocument = await this.customerRepository.findOneByDocument(
       data.document,
     );
-    if (customerByDocument) throw new Error('Customer already exists');
+    if (customerByDocument)
+      throw new AddOneCustomerError('Customer already exists');
 
     // Check if customer already exists by email
     const customerByEmail = await this.customerRepository.findOneByEmail(
       data.email,
     );
-    if (customerByEmail) throw new Error('Customer already exists');
+    if (customerByEmail)
+      throw new AddOneCustomerError('Customer already exists');
 
     return await this.customerRepository.createOne(data);
   }
 
-  async findOneByDocument(document: string): Promise<Customer | null> {
-    const customer = await this.customerRepository.findOneByDocument(document);
-
-    return customer;
+  findOneByDocument(document: string): Promise<Customer | null> {
+    return this.customerRepository.findOneByDocument(document);
   }
 }
