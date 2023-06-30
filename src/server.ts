@@ -1,10 +1,20 @@
+import 'module-alias/register';
 import express, { Request, Response } from 'express';
+import { CustomerInMemoryRepository } from '@/repositories';
+import { Customers } from '@/services';
 
 const app = express();
 const port = 3000;
 
-app.get('/', (req: Request, res: Response) => {
-  res.send('Hello, world!');
+// Repository
+const customerRepository = new CustomerInMemoryRepository();
+const customerService = new Customers(customerRepository);
+
+app.get('/customers/:document', async (req: Request, res: Response) => {
+  const { document } = req.params;
+  console.log(document);
+  const customer = await customerService.getOneByDocument(document);
+  res.json(customer);
 });
 
 app.listen(port, () => {
