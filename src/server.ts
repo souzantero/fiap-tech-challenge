@@ -1,7 +1,8 @@
 import express, { Request, Response } from 'express';
-import { CustomerInMemoryRepository } from './repository';
-import { Customers } from './service';
-import { CustomerHttpController, HttpError } from './controller';
+import { CustomerInMemoryRepository } from './repositories/customer-repository';
+import { Customers } from './services/customer-service';
+import { CustomerHttpController } from './controllers/customer-http-controller';
+import { HttpError } from './controllers/http-controller';
 
 const app = express();
 const port = 3000;
@@ -34,6 +35,8 @@ const handleHttpError = (error: unknown, res: Response) => {
     message: 'Internal server error',
   });
 };
+
+// Customers
 
 app.post('/customers', async (req: Request, res: Response) => {
   try {

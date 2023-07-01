@@ -1,5 +1,5 @@
-import { Customer } from './entity';
-import { CustomerRepository } from './repository';
+import { Customer } from '../entities/customer';
+import { CustomerRepository } from '../repositories/customer-repository';
 
 export type CreateOneCustomerData = {
   name: string;

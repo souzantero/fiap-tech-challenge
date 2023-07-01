@@ -1,4 +1,4 @@
-import { Customer } from './entity';
+import { Customer } from '../entities/customer';
 
 const generateId = () => {
   return Math.random().toString(36).substr(2, 9);
