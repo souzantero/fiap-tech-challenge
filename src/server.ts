@@ -2,7 +2,11 @@ import express, { Request, Response } from 'express';
 import { CustomerInMemoryRepository } from './repositories/customer-repository';
 import { Customers } from './services/customer-service';
 import { CustomerHttpController } from './controllers/customer-http-controller';
-import { HttpError } from './controllers/http-controller';
+import {
+  HttpError,
+  HttpRequest,
+  HttpResult,
+} from './controllers/http-controller';
 
 const app = express();
 const port = 3000;
@@ -24,6 +28,25 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routes
 
+const adaptRoute = <T>(
+  handler: (httpRequest: HttpRequest) => Promise<HttpResult<T>>,
+) => {
+  return async (req: Request, res: Response) => {
+    const httpRequest = {
+      body: req.body,
+      params: req.params,
+    };
+
+    try {
+      const httpResult = await handler(httpRequest);
+      return res.status(httpResult.code).json(httpResult.body);
+    } catch (error) {
+      console.error(error);
+      handleHttpError(error, res);
+    }
+  };
+};
+
 const handleHttpError = (error: unknown, res: Response) => {
   if (error instanceof HttpError) {
     return res.status(error.code).json({
@@ -38,24 +61,11 @@ const handleHttpError = (error: unknown, res: Response) => {
 
 // Customers
 
-app.post('/customers', async (req: Request, res: Response) => {
-  try {
-    const result = await customerController.addOne(req.body);
-    return res.status(result.code).json(result.body);
-  } catch (error) {
-    handleHttpError(error, res);
-  }
-});
-
-app.get('/customers/:document', async (req: Request, res: Response) => {
-  try {
-    const { document } = req.params;
-    const result = await customerController.findOneByDocument({ document });
-    return res.status(result.code).json(result.body);
-  } catch (error) {
-    handleHttpError(error, res);
-  }
-});
+app.post('/customers', adaptRoute((httpRequest) => customerController.addOne(httpRequest)));
+app.get(
+  '/customers/:document',
+  adaptRoute((httpRequest) => customerController.findOneByDocument(httpRequest)),
+);
 
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);

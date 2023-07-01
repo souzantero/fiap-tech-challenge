@@ -5,6 +5,7 @@ import {
 } from '../services/customer-service';
 import {
   BadRequestError,
+  HttpRequest,
   HttpResult,
   HttpStatus,
   NotFoundError,
@@ -15,8 +16,8 @@ import {
 export class CustomerHttpController {
   constructor(private readonly customerService: CustomerService) {}
 
-  async addOne(body: AddOneBody): Promise<HttpResult<Customer>> {
-    const { name, email, document } = body;
+  async addOne(request: HttpRequest): Promise<HttpResult<Customer>> {
+    const { name, email, document } = request.body;
 
     if (!name || !email || !document) {
       throw new BadRequestError('Missing required fields');
@@ -39,10 +40,8 @@ export class CustomerHttpController {
     }
   }
 
-  async findOneByDocument(
-    params: FindOneByDocumentParams,
-  ): Promise<HttpResult<Customer>> {
-    const { document } = params;
+  async findOneByDocument(request: HttpRequest): Promise<HttpResult<Customer>> {
+    const { document } = request.params;
 
     const customer = await this.customerService.findOneByDocument(document);
 
@@ -53,13 +52,3 @@ export class CustomerHttpController {
     return httpResult(HttpStatus.Ok, customer);
   }
 }
-
-export type AddOneBody = {
-  name: string;
-  email: string;
-  document: string;
-};
-
-export type FindOneByDocumentParams = {
-  document: string;
-};
