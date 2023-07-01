@@ -13,5 +13,6 @@ export type Product = {
 
   type: ProductType;
   name: string;
+  description: string;
   price: number;
 };

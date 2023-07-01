@@ -27,6 +27,7 @@ export class ProductInMemoryRepository implements ProductRepository {
       createdAt: new Date(),
       type: data.type,
       name: data.name,
+      description: data.description,
       price: data.price,
     };
 

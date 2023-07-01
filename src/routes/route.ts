@@ -12,6 +12,7 @@ export const interceptRoute = <T>(
     const httpRequest = {
       body: req.body,
       params: req.params,
+      query: req.query,
     };
 
     try {

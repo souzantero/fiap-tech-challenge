@@ -1,12 +1,10 @@
 import { Product, ProductType } from '../entities/product';
 import { ProductRepository } from '../repositories/product-repository';
 
-export type CreateOneProductData = {
-  type: ProductType;
-  name: string;
-  price: number;
-};
-
+export type CreateOneProductData = Omit<
+  Product,
+  'id' | 'createdAt' | 'updatedAt' | 'deletedAt'
+>;
 export type UpdateOneProductData = Partial<CreateOneProductData>;
 
 export interface ProductService {
