@@ -2,24 +2,23 @@ import { Request, Response } from 'express';
 import {
   HttpError,
   HttpRequest,
-  HttpResult,
+  HttpResponse,
 } from '../controllers/http-controller';
 
 export const interceptRoute = <T>(
-  handler: (httpRequest: HttpRequest) => Promise<HttpResult<T>>,
+  handler: (httpRequest: HttpRequest) => Promise<HttpResponse<T>>,
 ) => {
   return async (req: Request, res: Response) => {
     const httpRequest = {
-      body: req.body,
-      params: req.params,
-      query: req.query,
+      body: { ...req.body },
+      params: { ...req.params },
+      query: { ...req.query },
     };
 
     try {
       const httpResult = await handler(httpRequest);
-      return res.status(httpResult.code).json(httpResult.body);
+      return res.status(httpResult.status).json(httpResult.body);
     } catch (error) {
-      console.error(error);
       handleHttpError(error, res);
     }
   };
@@ -27,10 +26,12 @@ export const interceptRoute = <T>(
 
 const handleHttpError = (error: unknown, res: Response) => {
   if (error instanceof HttpError) {
-    return res.status(error.code).json({
+    return res.status(error.status).json({
       message: error.message,
     });
   }
+
+  console.error(error);
 
   return res.status(500).json({
     message: 'Internal server error',

@@ -6,17 +6,17 @@ import {
 import {
   BadRequestError,
   HttpRequest,
-  HttpResult,
+  HttpResponse,
+  HttpResponseBuilder,
   HttpStatus,
   NotFoundError,
-  httpResult,
-  httpServerError,
+  OkHttpResponse,
 } from './http-controller';
 
 export class CustomerHttpController {
   constructor(private readonly customerService: CustomerService) {}
 
-  async addOne(request: HttpRequest): Promise<HttpResult<Customer>> {
+  async addOne(request: HttpRequest): Promise<HttpResponse<Customer>> {
     const { name, email, document } = request.body;
 
     if (!name || !email || !document) {
@@ -30,17 +30,22 @@ export class CustomerHttpController {
         document,
       });
 
-      return httpResult(HttpStatus.Created, customer);
+      return new HttpResponseBuilder<Customer>()
+        .withStatus(HttpStatus.Created)
+        .withBody(customer)
+        .build();
     } catch (error) {
       if (error instanceof AddOneCustomerError) {
         throw new BadRequestError(error.message);
       }
 
-      throw httpServerError(error);
+      throw error;
     }
   }
 
-  async findOneByDocument(request: HttpRequest): Promise<HttpResult<Customer>> {
+  async findOneByDocument(
+    request: HttpRequest,
+  ): Promise<HttpResponse<Customer>> {
     const { document } = request.params;
 
     const customer = await this.customerService.findOneByDocument(document);
@@ -49,6 +54,6 @@ export class CustomerHttpController {
       throw new NotFoundError('Customer not found');
     }
 
-    return httpResult(HttpStatus.Ok, customer);
+    return new OkHttpResponse(customer);
   }
 }

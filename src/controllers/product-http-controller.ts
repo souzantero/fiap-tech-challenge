@@ -1,4 +1,4 @@
-import { Product } from '../entities/product';
+import { Product, ProductType } from '../entities/product';
 import {
   FindOneProductByIdError,
   ProductService,
@@ -6,37 +6,56 @@ import {
 import {
   BadRequestError,
   HttpRequest,
-  HttpResult,
+  HttpResponse,
+  HttpResponseBuilder,
   HttpStatus,
-  httpResult,
-  httpServerError,
+  OkHttpResponse,
 } from './http-controller';
+
+const parsePrice = (price: string): number => {
+  const parsedPrice = Number(price);
+  if (Number.isNaN(parsedPrice)) {
+    throw new BadRequestError('Invalid price');
+  }
+
+  return parsedPrice;
+};
+
+const parseProductType = (type: string): ProductType => {
+  const productType = Object.values(ProductType).find(
+    (value) => value === type,
+  );
+  if (!productType) {
+    throw new BadRequestError('Invalid product type');
+  }
+
+  return productType;
+};
 
 export class ProductHttpController {
   constructor(private readonly productService: ProductService) {}
 
-  async addOne(request: HttpRequest): Promise<HttpResult<Product>> {
+  async addOne(request: HttpRequest): Promise<HttpResponse<Product>> {
     const { name, description, price, type } = request.body;
 
     if (!name || !description || !price || !type) {
       throw new BadRequestError('Missing required fields');
     }
 
-    try {
-      const product = await this.productService.addOne({
-        name,
-        description,
-        price,
-        type,
-      });
+    const product = await this.productService.addOne({
+      name,
+      description,
+      price: parsePrice(price),
+      type: parseProductType(type),
+    });
 
-      return httpResult(HttpStatus.Created, product);
-    } catch (error) {
-      throw httpServerError(error);
-    }
+    return new HttpResponseBuilder<Product>()
+      .withStatus(HttpStatus.Created)
+      .withBody(product)
+      .build();
   }
 
-  async updateOneById(request: HttpRequest): Promise<HttpResult<Product>> {
+  async updateOneById(request: HttpRequest): Promise<HttpResponse<Product>> {
     const { id } = request.params;
     const { name, description, price, type } = request.body;
 
@@ -48,49 +67,49 @@ export class ProductHttpController {
       const product = await this.productService.updateOneById(id, {
         name,
         description,
-        price,
-        type,
+        price: price ? parsePrice(price) : undefined,
+        type: type ? parseProductType(type) : undefined,
       });
 
-      return httpResult(HttpStatus.Ok, product);
+      return new OkHttpResponse(product);
     } catch (error) {
       if (error instanceof FindOneProductByIdError) {
         throw new BadRequestError(error.message);
       }
 
-      throw httpServerError(error);
+      throw error;
     }
   }
 
-  async removeOneById(request: HttpRequest): Promise<HttpResult<void>> {
+  async removeOneById(request: HttpRequest): Promise<HttpResponse<void>> {
     const { id } = request.params;
 
     try {
       await this.productService.removeOneById(id);
 
-      return httpResult(HttpStatus.NoContent);
+      return new HttpResponseBuilder<undefined>()
+        .withStatus(HttpStatus.NoContent)
+        .build();
     } catch (error) {
       if (error instanceof FindOneProductByIdError) {
         throw new BadRequestError(error.message);
       }
 
-      throw httpServerError(error);
+      throw error;
     }
   }
 
-  async findManyByType(request: HttpRequest): Promise<HttpResult<Product[]>> {
+  async findManyByType(request: HttpRequest): Promise<HttpResponse<Product[]>> {
     const { type } = request.query;
 
     if (!type) {
       throw new BadRequestError('Missing required fields');
     }
 
-    try {
-      const products = await this.productService.findManyByType(type);
+    const products = await this.productService.findManyByType(
+      parseProductType(type),
+    );
 
-      return httpResult(HttpStatus.Ok, products);
-    } catch (error) {
-      throw httpServerError(error);
-    }
+    return new OkHttpResponse(products);
   }
 }
