@@ -1,8 +1,8 @@
 import { Customer } from '../entities/customer';
 import {
   AddOneCustomerError,
-  AddOneCustomerService,
-  FindOneCustomerService,
+  AddCustomer,
+  FindCustomer,
 } from '../services/customer-service';
 import {
   BadRequestError,
@@ -13,14 +13,14 @@ import {
 } from './http-controller';
 
 export class AddOneCustomerHttpController implements HttpController<Customer> {
-  constructor(private readonly addOneCustomerService: AddOneCustomerService) {}
+  constructor(private readonly addCustomer: AddCustomer) {}
 
   async handle(request: HttpRequest): Promise<HttpResponse<Customer>> {
     const { name, email, document } = request.body;
     if (!name || !email || !document)
       throw new BadRequestError('Missing required fields');
     try {
-      const customer = await this.addOneCustomerService.addOne({
+      const customer = await this.addCustomer.addOne({
         name,
         email,
         document,
@@ -36,14 +36,10 @@ export class AddOneCustomerHttpController implements HttpController<Customer> {
 }
 
 export class FindOneCustomerHttpController implements HttpController<Customer> {
-  constructor(
-    private readonly findOneCustomerService: FindOneCustomerService,
-  ) {}
+  constructor(private readonly findCustomer: FindCustomer) {}
   async handle(request: HttpRequest): Promise<HttpResponse<Customer>> {
     const { document } = request.params;
-    const customer = await this.findOneCustomerService.findOneByDocument(
-      document,
-    );
+    const customer = await this.findCustomer.findOneByDocument(document);
     if (!customer) throw new NotFoundError('Customer not found');
     return HttpResponse.ok(customer);
   }

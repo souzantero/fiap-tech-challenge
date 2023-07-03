@@ -5,8 +5,17 @@ export type Order = {
   deletedAt?: Date;
 
   customerId: string;
-  products: {
-    productId: string;
-    quantity: number;
-  }[];
+
+  products: OrderProduct[];
+};
+
+export type OrderProduct = {
+  id: string;
+  createdAt: Date;
+  updatedAt?: Date;
+  deletedAt?: Date;
+
+  orderId: string;
+  productId: string;
+  quantity: number;
 };

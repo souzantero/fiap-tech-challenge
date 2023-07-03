@@ -1,10 +1,10 @@
 import { Product, ProductType } from '../entities/product';
 import {
-  AddOneProductService,
-  FindManyProductsService,
+  AddProduct,
+  FindProducts,
   FindOneProductByIdError,
-  RemoveOneProductService,
-  UpdateOneProductService,
+  RemoveProduct,
+  UpdateProduct,
 } from '../services/product-service';
 import {
   BadRequestError,
@@ -34,7 +34,7 @@ const parseProductType = (type: string): ProductType => {
 };
 
 export class AddOneProductHttpController implements HttpController<Product> {
-  constructor(private readonly addOneProductService: AddOneProductService) {}
+  constructor(private readonly addProduct: AddProduct) {}
   async handle(request: HttpRequest): Promise<HttpResponse<Product>> {
     const { name, description, price, type } = request.body;
 
@@ -42,7 +42,7 @@ export class AddOneProductHttpController implements HttpController<Product> {
       throw new BadRequestError('Missing required fields');
     }
 
-    const product = await this.addOneProductService.addOne({
+    const product = await this.addProduct.addOne({
       name,
       description,
       price: parsePrice(price),
@@ -54,9 +54,7 @@ export class AddOneProductHttpController implements HttpController<Product> {
 }
 
 export class UpdateOneProductHttpController implements HttpController<Product> {
-  constructor(
-    private readonly updateOneProductService: UpdateOneProductService,
-  ) {}
+  constructor(private readonly updateProduct: UpdateProduct) {}
 
   async handle(request: HttpRequest): Promise<HttpResponse<Product>> {
     const { id } = request.params;
@@ -67,7 +65,7 @@ export class UpdateOneProductHttpController implements HttpController<Product> {
     }
 
     try {
-      const product = await this.updateOneProductService.updateOneById(id, {
+      const product = await this.updateProduct.updateOneById(id, {
         name,
         description,
         price: price ? parsePrice(price) : undefined,
@@ -86,15 +84,13 @@ export class UpdateOneProductHttpController implements HttpController<Product> {
 }
 
 export class RemoveOneProductHttpController implements HttpController<void> {
-  constructor(
-    private readonly removeOneProductService: RemoveOneProductService,
-  ) {}
+  constructor(private readonly removeProduct: RemoveProduct) {}
 
   async handle(request: HttpRequest): Promise<HttpResponse<void>> {
     const { id } = request.params;
 
     try {
-      await this.removeOneProductService.removeOneById(id);
+      await this.removeProduct.removeOneById(id);
       return HttpResponse.noContent();
     } catch (error) {
       if (error instanceof FindOneProductByIdError) {
@@ -107,9 +103,7 @@ export class RemoveOneProductHttpController implements HttpController<void> {
 }
 
 export class FindManyProductsHttpController {
-  constructor(
-    private readonly findManyProductsService: FindManyProductsService,
-  ) {}
+  constructor(private readonly findProducts: FindProducts) {}
   async handle(request: HttpRequest): Promise<HttpResponse<Product[]>> {
     const { type } = request.query;
 
@@ -117,7 +111,7 @@ export class FindManyProductsHttpController {
       throw new BadRequestError('Missing required fields');
     }
 
-    const products = await this.findManyProductsService.findManyByType(
+    const products = await this.findProducts.findManyByType(
       parseProductType(type),
     );
 

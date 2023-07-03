@@ -7,19 +7,19 @@ export type AddOneProductData = Omit<
 >;
 export type UpdateOneProductData = Partial<AddOneProductData>;
 
-export interface AddOneProductService {
+export interface AddProduct {
   addOne(data: AddOneProductData): Promise<Product>;
 }
 
-export interface UpdateOneProductService {
+export interface UpdateProduct {
   updateOneById(id: string, data: UpdateOneProductData): Promise<Product>;
 }
 
-export interface RemoveOneProductService {
+export interface RemoveProduct {
   removeOneById(id: string): Promise<void>;
 }
 
-export interface FindManyProductsService {
+export interface FindProducts {
   findManyByType(type: ProductType): Promise<Product[]>;
 }
 
@@ -31,11 +31,7 @@ export class FindOneProductByIdError extends Error {
 }
 
 export class Products
-  implements
-    AddOneProductService,
-    UpdateOneProductService,
-    RemoveOneProductService,
-    FindManyProductsService
+  implements AddProduct, UpdateProduct, RemoveProduct, FindProducts
 {
   constructor(private readonly productRepository: ProductRepository) {}
 

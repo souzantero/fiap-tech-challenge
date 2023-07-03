@@ -7,10 +7,6 @@ export type AddOneCustomerData = {
   document: string;
 };
 
-export interface AddOneCustomerService {
-  addOne(data: AddOneCustomerData): Promise<Customer>;
-}
-
 export class AddOneCustomerError extends Error {
   constructor(message: string) {
     super(message);
@@ -18,13 +14,15 @@ export class AddOneCustomerError extends Error {
   }
 }
 
-export interface FindOneCustomerService {
+export interface AddCustomer {
+  addOne(data: AddOneCustomerData): Promise<Customer>;
+}
+
+export interface FindCustomer {
   findOneByDocument(document: string): Promise<Customer | null>;
 }
 
-export class Customers
-  implements AddOneCustomerService, FindOneCustomerService
-{
+export class Customers implements AddCustomer, FindCustomer {
   constructor(private readonly customerRepository: CustomerRepository) {}
 
   async addOne(data: AddOneCustomerData): Promise<Customer> {
