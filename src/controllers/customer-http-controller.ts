@@ -7,10 +7,7 @@ import {
   BadRequestError,
   HttpRequest,
   HttpResponse,
-  HttpResponseBuilder,
-  HttpStatus,
   NotFoundError,
-  OkHttpResponse,
 } from './http-controller';
 
 export class CustomerHttpController {
@@ -30,10 +27,7 @@ export class CustomerHttpController {
         document,
       });
 
-      return new HttpResponseBuilder<Customer>()
-        .withStatus(HttpStatus.Created)
-        .withBody(customer)
-        .build();
+      return HttpResponse.created(customer);
     } catch (error) {
       if (error instanceof AddOneCustomerError) {
         throw new BadRequestError(error.message);
@@ -54,6 +48,6 @@ export class CustomerHttpController {
       throw new NotFoundError('Customer not found');
     }
 
-    return new OkHttpResponse(customer);
+    return HttpResponse.ok(customer);
   }
 }

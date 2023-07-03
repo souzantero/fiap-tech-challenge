@@ -3,14 +3,7 @@ import {
   FindOneProductByIdError,
   ProductService,
 } from '../services/product-service';
-import {
-  BadRequestError,
-  HttpRequest,
-  HttpResponse,
-  HttpResponseBuilder,
-  HttpStatus,
-  OkHttpResponse,
-} from './http-controller';
+import { BadRequestError, HttpRequest, HttpResponse } from './http-controller';
 
 const parsePrice = (price: string): number => {
   const parsedPrice = Number(price);
@@ -49,10 +42,7 @@ export class ProductHttpController {
       type: parseProductType(type),
     });
 
-    return new HttpResponseBuilder<Product>()
-      .withStatus(HttpStatus.Created)
-      .withBody(product)
-      .build();
+    return HttpResponse.created(product);
   }
 
   async updateOneById(request: HttpRequest): Promise<HttpResponse<Product>> {
@@ -71,7 +61,7 @@ export class ProductHttpController {
         type: type ? parseProductType(type) : undefined,
       });
 
-      return new OkHttpResponse(product);
+      return HttpResponse.ok(product);
     } catch (error) {
       if (error instanceof FindOneProductByIdError) {
         throw new BadRequestError(error.message);
@@ -86,10 +76,7 @@ export class ProductHttpController {
 
     try {
       await this.productService.removeOneById(id);
-
-      return new HttpResponseBuilder<undefined>()
-        .withStatus(HttpStatus.NoContent)
-        .build();
+      return HttpResponse.noContent();
     } catch (error) {
       if (error instanceof FindOneProductByIdError) {
         throw new BadRequestError(error.message);
@@ -110,6 +97,6 @@ export class ProductHttpController {
       parseProductType(type),
     );
 
-    return new OkHttpResponse(products);
+    return HttpResponse.ok(products);
   }
 }

@@ -8,49 +8,23 @@ export interface HttpRequest {
   query: any;
 }
 
-export type HttpResponse<T> = {
-  status: HttpStatus;
-  body?: T;
-};
+export class HttpResponse<T> {
+  private constructor(
+    public readonly status: HttpStatus,
+    public readonly body?: T,
+  ) {}
 
-export class HttpResponseBuilder<T> {
-  private status: HttpStatus;
-  private body?: T;
-
-  constructor() {
-    this.status = HttpStatus.Ok;
+  static ok<T>(body?: T) {
+    return new HttpResponse<T>(HttpStatus.Ok, body);
   }
 
-  withStatus(status: HttpStatus) {
-    this.status = status;
-    return this;
+  static created<T>(body?: T) {
+    return new HttpResponse<T>(HttpStatus.Created, body);
   }
 
-  withBody(body: T) {
-    this.body = body;
-    return this;
+  static noContent<T>() {
+    return new HttpResponse<T>(HttpStatus.NoContent);
   }
-
-  build(): HttpResponse<T> {
-    return {
-      status: this.status,
-      body: this.body,
-    };
-  }
-}
-
-export class OkHttpResponse<T> implements HttpResponse<T> {
-  status = HttpStatus.Ok;
-  constructor(public readonly body?: T) {}
-}
-
-export class CreatedHttpResponse<T> implements HttpResponse<T> {
-  status = HttpStatus.Created;
-  constructor(public readonly body?: T) {}
-}
-
-export class NoContentHttpResponse<T> implements HttpResponse<T> {
-  status = HttpStatus.NoContent;
 }
 
 export enum HttpStatus {
