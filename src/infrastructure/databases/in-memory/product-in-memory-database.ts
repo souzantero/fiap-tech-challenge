@@ -1,42 +1,16 @@
-import { Product, ProductType } from '../entities/product';
+import { Product, ProductType } from '../../../core/domain/models/product';
+import {
+  CreateOneProductData,
+  CreateOneProductRepository,
+  DestroyOneProductRepository,
+  FindManyProductsRepository,
+  FindOneProductRepository,
+  UpdateOneProductData,
+  UpdateOneProductRepository,
+} from '../../../core/domain/repositories/product-repository';
+import { generateId } from './in-memory-database';
 
-const generateId = () => {
-  return Math.random().toString(36).substr(2, 9);
-};
-
-export type CreateOneProductData = Omit<
-  Product,
-  'id' | 'createdAt' | 'updatedAt' | 'deletedAt'
->;
-export type UpdateOneProductData = Partial<CreateOneProductData>;
-
-export interface CreateOneProductRepository {
-  createOne(data: CreateOneProductData): Promise<Product>;
-}
-
-export interface UpdateOneProductRepository {
-  updateOneById(id: string, data: UpdateOneProductData): Promise<Product>;
-}
-
-export interface DestroyOneProductRepository {
-  destroyOneById(id: string): Promise<void>;
-}
-
-export interface FindOneProductRepository {
-  findOneById(id: string): Promise<Product | null>;
-}
-
-export interface FindManyProductsRepository {
-  findManyByType(type: ProductType): Promise<Product[]>;
-}
-
-export type ProductRepository = CreateOneProductRepository &
-  UpdateOneProductRepository &
-  DestroyOneProductRepository &
-  FindOneProductRepository &
-  FindManyProductsRepository;
-
-export class ProductInMemoryRepository
+export class ProductInMemoryDatabase
   implements
     CreateOneProductRepository,
     UpdateOneProductRepository,

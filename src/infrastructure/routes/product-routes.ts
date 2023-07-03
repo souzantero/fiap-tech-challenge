@@ -1,26 +1,28 @@
 import { Router } from 'express';
 import { adaptRoute } from './route';
-import { ProductInMemoryRepository } from '../repositories/product-repository';
-import { Products } from '../services/product-service';
+import { ProductService } from '../../core/application/services/product-service';
 import {
   AddOneProductHttpController,
   UpdateOneProductHttpController,
   RemoveOneProductHttpController,
   FindManyProductsHttpController,
-} from '../controllers/product-http-controller';
+} from '../../presentation/controllers/product-http-controller';
+import { ProductInMemoryDatabase } from '../databases/in-memory/product-in-memory-database';
 
 export const productRoutes = (router: Router) => {
-  const productRepository = new ProductInMemoryRepository();
-  const products = new Products(productRepository);
-  const addOneProductController = new AddOneProductHttpController(products);
+  const productRepository = new ProductInMemoryDatabase();
+  const productService = new ProductService(productRepository);
+  const addOneProductController = new AddOneProductHttpController(
+    productService,
+  );
   const updateOneProductController = new UpdateOneProductHttpController(
-    products,
+    productService,
   );
   const removeOneProductController = new RemoveOneProductHttpController(
-    products,
+    productService,
   );
   const findManyProductsController = new FindManyProductsHttpController(
-    products,
+    productService,
   );
 
   router.post('/products', adaptRoute(addOneProductController));

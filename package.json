@@ -8,9 +8,9 @@
     "lint": "eslint '*/**/*.ts'",
     "prebuild": "rimraf dist",
     "build": "tsc",
-    "start": "node dist/server.js",
-    "start:dev": "nodemon -L --watch ./src --exec ts-node ./src/server.ts",
-    "debug": "nodemon -L --watch ./dist --inspect=0.0.0.0:9222 --nolazy ./dist/server.js"
+    "start": "node dist/infrastructure/server.js",
+    "start:dev": "nodemon -L --watch ./src --exec ts-node ./src/infrastructure/server.ts",
+    "debug": "nodemon -L --watch ./dist --inspect=0.0.0.0:9222 --nolazy ./dist/infrastructure/server.js"
   },
   "keywords": [],
   "author": "Antero, Felipe <souzantero@gmail.com>",

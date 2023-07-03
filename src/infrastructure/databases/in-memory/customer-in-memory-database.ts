@@ -1,27 +1,12 @@
-import { Customer } from '../entities/customer';
+import { Customer } from '../../../core/domain/models/customer';
+import {
+  CreateOneCustomerData,
+  CreateOneCustomerRepository,
+  FindOneCustomerRepository,
+} from '../../../core/domain/repositories/customer-repository';
+import { generateId } from './in-memory-database';
 
-const generateId = () => {
-  return Math.random().toString(36).substr(2, 9);
-};
-
-export type CreateOneCustomerData = Omit<
-  Customer,
-  'id' | 'createdAt' | 'updatedAt' | 'deletedAt'
->;
-
-export interface CreateOneCustomerRepository {
-  createOne(data: CreateOneCustomerData): Promise<Customer>;
-}
-
-export interface FindOneCustomerRepository {
-  findOneByDocument(document: string): Promise<Customer | null>;
-  findOneByEmail(email: string): Promise<Customer | null>;
-}
-
-export type CustomerRepository = CreateOneCustomerRepository &
-  FindOneCustomerRepository;
-
-export class CustomerInMemoryRepository
+export class CustomerInMemoryDatabase
   implements CreateOneCustomerRepository, FindOneCustomerRepository
 {
   private readonly customers: Customer[] = [];

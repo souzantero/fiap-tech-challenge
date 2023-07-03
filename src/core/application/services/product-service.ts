@@ -1,36 +1,16 @@
-import { Product, ProductType } from '../entities/product';
-import { ProductRepository } from '../repositories/product-repository';
+import { Product, ProductType } from '../../domain/models/product';
+import { ProductRepository } from '../../domain/repositories/product-repository';
+import {
+  AddOneProductData,
+  AddProduct,
+  FindOneProductByIdError,
+  FindProducts,
+  RemoveProduct,
+  UpdateOneProductData,
+  UpdateProduct,
+} from '../use-cases/product-use-cases';
 
-export type AddOneProductData = Omit<
-  Product,
-  'id' | 'createdAt' | 'updatedAt' | 'deletedAt'
->;
-export type UpdateOneProductData = Partial<AddOneProductData>;
-
-export interface AddProduct {
-  addOne(data: AddOneProductData): Promise<Product>;
-}
-
-export interface UpdateProduct {
-  updateOneById(id: string, data: UpdateOneProductData): Promise<Product>;
-}
-
-export interface RemoveProduct {
-  removeOneById(id: string): Promise<void>;
-}
-
-export interface FindProducts {
-  findManyByType(type: ProductType): Promise<Product[]>;
-}
-
-export class FindOneProductByIdError extends Error {
-  constructor(message: string) {
-    super(message);
-    this.name = 'FindOneProductByIdError';
-  }
-}
-
-export class Products
+export class ProductService
   implements AddProduct, UpdateProduct, RemoveProduct, FindProducts
 {
   constructor(private readonly productRepository: ProductRepository) {}

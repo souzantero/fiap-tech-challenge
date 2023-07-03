@@ -1,28 +1,12 @@
-import { Order } from '../entities/order';
+import { Order } from '../../../core/domain/models/order';
+import {
+  CreateOneOrderData,
+  CreateOneOrderRepository,
+  LoadOrdersRepository,
+} from '../../../core/domain/repositories/order-repository';
+import { generateId } from './in-memory-database';
 
-const generateId = () => {
-  return Math.random().toString(36).substr(2, 9);
-};
-
-export type CreateOneOrderData = {
-  customerId: string;
-  products: {
-    productId: string;
-    quantity: number;
-  }[];
-};
-
-export interface CreateOneOrderRepository {
-  createOne(data: CreateOneOrderData): Promise<Order>;
-}
-
-export interface LoadOrdersRepository {
-  loadAll(): Promise<Order[]>;
-}
-
-export type OrderRepository = CreateOneOrderRepository & LoadOrdersRepository;
-
-export class OrderInMemoryRepository
+export class OrderInMemoryDatabase
   implements CreateOneOrderRepository, LoadOrdersRepository
 {
   private readonly orders: Order[] = [];

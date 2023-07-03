@@ -1,11 +1,11 @@
-import { Product, ProductType } from '../entities/product';
+import { Product, ProductType } from '../../core/domain/models/product';
 import {
   AddProduct,
   FindProducts,
   FindOneProductByIdError,
   RemoveProduct,
   UpdateProduct,
-} from '../services/product-service';
+} from '../../core/application/use-cases/product-use-cases';
 import {
   BadRequestError,
   HttpController,

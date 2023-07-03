@@ -1,9 +1,9 @@
-import { Order } from '../entities/order';
+import { Order } from '../../core/domain/models/order';
 import {
   AddOneOrderData,
   AddOrder,
   LoadOrders,
-} from '../services/order-service';
+} from '../../core/application/use-cases/order-use-cases';
 import {
   BadRequestError,
   HttpController,

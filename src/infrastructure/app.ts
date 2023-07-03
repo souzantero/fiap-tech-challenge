@@ -3,7 +3,7 @@ import { customerRoutes } from './routes/customer-routes';
 import { productRoutes } from './routes/product-routes';
 import { orderRoutes } from './routes/order-routes';
 
-export const bootstrap = () => {
+export const createApp = () => {
   const app = express();
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));

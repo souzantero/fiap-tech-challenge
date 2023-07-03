@@ -1,6 +1,6 @@
-import { bootstrap } from './bootstrap';
+import { createApp } from './app';
 
-const server = bootstrap();
+const server = createApp();
 const port = 3000;
 server.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);

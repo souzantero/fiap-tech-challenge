@@ -1,28 +1,13 @@
-import { Customer } from '../entities/customer';
-import { CustomerRepository } from '../repositories/customer-repository';
+import { Customer } from '../../domain/models/customer';
+import { CustomerRepository } from '../../domain/repositories/customer-repository';
+import {
+  AddCustomer,
+  AddOneCustomerData,
+  AddOneCustomerError,
+  FindCustomer,
+} from '../use-cases/customer-use-cases';
 
-export type AddOneCustomerData = {
-  name: string;
-  email: string;
-  document: string;
-};
-
-export class AddOneCustomerError extends Error {
-  constructor(message: string) {
-    super(message);
-    this.name = 'AddOneCustomerError';
-  }
-}
-
-export interface AddCustomer {
-  addOne(data: AddOneCustomerData): Promise<Customer>;
-}
-
-export interface FindCustomer {
-  findOneByDocument(document: string): Promise<Customer | null>;
-}
-
-export class Customers implements AddCustomer, FindCustomer {
+export class CustomerService implements AddCustomer, FindCustomer {
   constructor(private readonly customerRepository: CustomerRepository) {}
 
   async addOne(data: AddOneCustomerData): Promise<Customer> {
