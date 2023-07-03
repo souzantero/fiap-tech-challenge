@@ -9,13 +9,21 @@ export type CreateOneCustomerData = Omit<
   'id' | 'createdAt' | 'updatedAt' | 'deletedAt'
 >;
 
-export interface CustomerRepository {
+export interface CreateOneCustomerRepository {
   createOne(data: CreateOneCustomerData): Promise<Customer>;
+}
+
+export interface FindOneCustomerRepository {
   findOneByDocument(document: string): Promise<Customer | null>;
   findOneByEmail(email: string): Promise<Customer | null>;
 }
 
-export class CustomerInMemoryRepository implements CustomerRepository {
+export type CustomerRepository = CreateOneCustomerRepository &
+  FindOneCustomerRepository;
+
+export class CustomerInMemoryRepository
+  implements CreateOneCustomerRepository, FindOneCustomerRepository
+{
   private readonly customers: Customer[] = [];
 
   async createOne(data: CreateOneCustomerData): Promise<Customer> {

@@ -1,23 +1,20 @@
 import { Router } from 'express';
-import { interceptRoute } from './route';
+import { adaptRoute } from './route';
 import { CustomerInMemoryRepository } from '../repositories/customer-repository';
 import { Customers } from '../services/customer-service';
-import { CustomerHttpController } from '../controllers/customer-http-controller';
+import {
+  AddOneCustomerHttpController,
+  FindOneCustomerHttpController,
+} from '../controllers/customer-http-controller';
 
 export const customerRoutes = (router: Router) => {
   const customerRepository = new CustomerInMemoryRepository();
   const customers = new Customers(customerRepository);
-  const customerController = new CustomerHttpController(customers);
-
-  router.post(
-    '/customers',
-    interceptRoute((httpRequest) => customerController.addOne(httpRequest)),
+  const addOneCustomerController = new AddOneCustomerHttpController(customers);
+  const findOneCustomerController = new FindOneCustomerHttpController(
+    customers,
   );
 
-  router.get(
-    '/customers/:document',
-    interceptRoute((httpRequest) =>
-      customerController.findOneByDocument(httpRequest),
-    ),
-  );
+  router.post('/customers', adaptRoute(addOneCustomerController));
+  router.get('/customers/:document', adaptRoute(findOneCustomerController));
 };

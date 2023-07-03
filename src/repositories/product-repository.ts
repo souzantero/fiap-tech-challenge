@@ -10,15 +10,40 @@ export type CreateOneProductData = Omit<
 >;
 export type UpdateOneProductData = Partial<CreateOneProductData>;
 
-export interface ProductRepository {
+export interface CreateOneProductRepository {
   createOne(data: CreateOneProductData): Promise<Product>;
+}
+
+export interface UpdateOneProductRepository {
   updateOneById(id: string, data: UpdateOneProductData): Promise<Product>;
+}
+
+export interface DestroyOneProductRepository {
   destroyOneById(id: string): Promise<void>;
+}
+
+export interface FindOneProductRepository {
   findOneById(id: string): Promise<Product | null>;
+}
+
+export interface FindManyProductsRepository {
   findManyByType(type: ProductType): Promise<Product[]>;
 }
 
-export class ProductInMemoryRepository implements ProductRepository {
+export type ProductRepository = CreateOneProductRepository &
+  UpdateOneProductRepository &
+  DestroyOneProductRepository &
+  FindOneProductRepository &
+  FindManyProductsRepository;
+
+export class ProductInMemoryRepository
+  implements
+    CreateOneProductRepository,
+    UpdateOneProductRepository,
+    DestroyOneProductRepository,
+    FindOneProductRepository,
+    FindManyProductsRepository
+{
   private readonly products: Product[] = [];
 
   async createOne(data: CreateOneProductData): Promise<Product> {

@@ -1,16 +1,25 @@
 import { Product, ProductType } from '../entities/product';
 import { ProductRepository } from '../repositories/product-repository';
 
-export type CreateOneProductData = Omit<
+export type AddOneProductData = Omit<
   Product,
   'id' | 'createdAt' | 'updatedAt' | 'deletedAt'
 >;
-export type UpdateOneProductData = Partial<CreateOneProductData>;
+export type UpdateOneProductData = Partial<AddOneProductData>;
 
-export interface ProductService {
-  addOne(data: CreateOneProductData): Promise<Product>;
+export interface AddOneProductService {
+  addOne(data: AddOneProductData): Promise<Product>;
+}
+
+export interface UpdateOneProductService {
   updateOneById(id: string, data: UpdateOneProductData): Promise<Product>;
+}
+
+export interface RemoveOneProductService {
   removeOneById(id: string): Promise<void>;
+}
+
+export interface FindManyProductsService {
   findManyByType(type: ProductType): Promise<Product[]>;
 }
 
@@ -21,10 +30,16 @@ export class FindOneProductByIdError extends Error {
   }
 }
 
-export class Products implements ProductService {
+export class Products
+  implements
+    AddOneProductService,
+    UpdateOneProductService,
+    RemoveOneProductService,
+    FindManyProductsService
+{
   constructor(private readonly productRepository: ProductRepository) {}
 
-  async addOne(data: CreateOneProductData): Promise<Product> {
+  async addOne(data: AddOneProductData): Promise<Product> {
     return await this.productRepository.createOne(data);
   }
 
