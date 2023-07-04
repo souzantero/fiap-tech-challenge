@@ -42,6 +42,13 @@ export class HttpError extends Error {
   }
 }
 
+export class InternalServerError extends HttpError {
+  constructor(stack?: string) {
+    super(HttpStatus.InternalServer, 'Internal server error');
+    this.stack = stack;
+  }
+}
+
 export class BadRequestError extends HttpError {
   constructor(message: string) {
     super(HttpStatus.BadRequest, message);

@@ -3,6 +3,7 @@ import {
   HttpError,
   HttpRequest,
   HttpResponse,
+  InternalServerError,
 } from '../../presentation/controllers/http-controller';
 
 export class CatchErrorHttpControllerDecorator<T> implements HttpController<T> {
@@ -13,7 +14,8 @@ export class CatchErrorHttpControllerDecorator<T> implements HttpController<T> {
       return await this.httpController.handle(request);
     } catch (error) {
       if (error instanceof HttpError) throw error;
-      throw new HttpError(500, 'Internal server error');
+      const { stack } = error as Error;
+      throw new InternalServerError(stack);
     }
   }
 }
