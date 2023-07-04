@@ -22,10 +22,8 @@ export type OrderProduct = {
 };
 
 export enum OrderStatus {
-  Waiting = 'waiting',
+  Received = 'received',
   Preparing = 'preparing',
   Ready = 'ready',
-  Delivering = 'delivering',
-  Delivered = 'delivered',
-  Canceled = 'canceled',
+  Finished = 'finished',
 }
