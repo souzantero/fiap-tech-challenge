@@ -13,7 +13,6 @@ export class CatchErrorHttpControllerDecorator<T> implements HttpController<T> {
       return await this.httpController.handle(request);
     } catch (error) {
       if (error instanceof HttpError) throw error;
-      console.error(error);
       throw new HttpError(500, 'Internal server error');
     }
   }
