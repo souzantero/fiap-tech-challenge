@@ -2,7 +2,9 @@ import { Order } from '../../core/domain/models/order';
 import {
   AddOneOrderData,
   AddOrder,
+  CustomerNotFoundError,
   LoadOrders,
+  ProductsNotFoundError,
 } from '../../core/application/use-cases/order-use-cases';
 import {
   BadRequestError,
@@ -33,8 +35,16 @@ export class AddOneOrderHttpController implements HttpController<Order> {
       throw new BadRequestError('Invalid products');
     }
 
-    const order = await this.addOrder.addOne(data);
-    return HttpResponse.created(order);
+    try {
+      const order = await this.addOrder.addOne(data);
+      return HttpResponse.created(order);
+    } catch (error) {
+      if (error instanceof CustomerNotFoundError)
+        throw new BadRequestError('Customer not found');
+      else if (error instanceof ProductsNotFoundError)
+        throw new BadRequestError(error.message);
+      throw error;
+    }
   }
 }
 

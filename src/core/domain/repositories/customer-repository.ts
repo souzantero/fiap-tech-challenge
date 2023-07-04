@@ -10,6 +10,7 @@ export interface CreateOneCustomerRepository {
 }
 
 export interface FindOneCustomerRepository {
+  findOneById(id: string): Promise<Customer | null>;
   findOneByDocument(document: string): Promise<Customer | null>;
   findOneByEmail(email: string): Promise<Customer | null>;
 }

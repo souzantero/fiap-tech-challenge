@@ -7,10 +7,10 @@ import {
   RemoveOneProductHttpController,
   FindManyProductsHttpController,
 } from '../../presentation/controllers/product-http-controller';
-import { ProductInMemoryDatabase } from '../databases/in-memory/product-in-memory-database';
+import { InMemoryDatabase } from '../databases/in-memory/in-memory-database';
 
 export const productRoutes = (router: Router) => {
-  const productRepository = new ProductInMemoryDatabase();
+  const productRepository = InMemoryDatabase.getInstance().products;
   const productService = new ProductService(productRepository);
   const addOneProductController = new AddOneProductHttpController(
     productService,

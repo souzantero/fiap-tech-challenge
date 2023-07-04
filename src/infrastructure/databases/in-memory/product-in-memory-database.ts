@@ -71,6 +71,10 @@ export class ProductInMemoryDatabase
     return product || null;
   }
 
+  async findManyByIds(ids: string[]): Promise<Product[]> {
+    return this.products.filter((product) => ids.includes(product.id));
+  }
+
   async findManyByType(type: ProductType): Promise<Product[]> {
     return this.products.filter((product) => product.type === type);
   }

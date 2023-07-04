@@ -1,7 +1,8 @@
-import { Order } from '../models/order';
+import { Order, OrderStatus } from '../models/order';
 
 export type CreateOneOrderData = {
   customerId: string;
+  status: OrderStatus;
   products: {
     productId: string;
     quantity: number;

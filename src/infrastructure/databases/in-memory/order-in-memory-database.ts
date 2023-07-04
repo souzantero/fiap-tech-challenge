@@ -17,6 +17,7 @@ export class OrderInMemoryDatabase
       id: orderId,
       createdAt: new Date(),
       customerId: data.customerId,
+      status: data.status,
       products: data.products.map((product) => ({
         id: generateId(),
         createdAt: new Date(),

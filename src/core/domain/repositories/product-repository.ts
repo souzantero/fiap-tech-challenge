@@ -24,6 +24,7 @@ export interface FindOneProductRepository {
 }
 
 export interface FindManyProductsRepository {
+  findManyByIds(ids: string[]): Promise<Product[]>;
   findManyByType(type: ProductType): Promise<Product[]>;
 }
 

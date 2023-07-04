@@ -5,10 +5,10 @@ import {
   AddOneCustomerHttpController,
   FindOneCustomerHttpController,
 } from '../../presentation/controllers/customer-http-controller';
-import { CustomerInMemoryDatabase } from '../databases/in-memory/customer-in-memory-database';
+import { InMemoryDatabase } from '../databases/in-memory/in-memory-database';
 
 export const customerRoutes = (router: Router) => {
-  const customerRepository = new CustomerInMemoryDatabase();
+  const customerRepository = InMemoryDatabase.getInstance().customers;
   const customerService = new CustomerService(customerRepository);
   const addOneCustomerController = new AddOneCustomerHttpController(
     customerService,

@@ -25,6 +25,11 @@ export class CustomerInMemoryDatabase
     return customer;
   }
 
+  async findOneById(id: string): Promise<Customer | null> {
+    const customer = this.customers.find((customer) => customer.id === id);
+    return customer || null;
+  }
+
   async findOneByDocument(document: string): Promise<Customer | null> {
     const customer = this.customers.find(
       (customer) => customer.document === document,
