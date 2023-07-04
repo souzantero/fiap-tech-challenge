@@ -16,21 +16,10 @@ export const adaptRoute = <T>(httpController: HttpController<T>) => {
       const httpResult = await httpController.handle(httpRequest);
       return res.status(httpResult.status).json(httpResult.body);
     } catch (error) {
-      handleHttpError(error, res);
+      const { status, message } = error as HttpError;
+      return res.status(status).json({
+        message,
+      });
     }
   };
-};
-
-const handleHttpError = (error: unknown, res: Response) => {
-  if (error instanceof HttpError) {
-    return res.status(error.status).json({
-      message: error.message,
-    });
-  }
-
-  console.error(error);
-
-  return res.status(500).json({
-    message: 'Internal server error',
-  });
 };

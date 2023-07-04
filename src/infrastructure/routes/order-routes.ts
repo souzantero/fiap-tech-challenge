@@ -6,6 +6,7 @@ import {
   LoadOrdersHttpController,
 } from '../../presentation/controllers/order-http-controller';
 import { InMemoryDatabase } from '../databases/in-memory/in-memory-database';
+import { CatchErrorHttpControllerDecorator } from '../decorators/catch-error-http-controller-decorator';
 
 export const orderRoutes = (router: Router) => {
   const orderRepository = InMemoryDatabase.getInstance().orders;
@@ -19,6 +20,12 @@ export const orderRoutes = (router: Router) => {
   const addOneOrderController = new AddOneOrderHttpController(orderService);
   const loadOrdersHttpController = new LoadOrdersHttpController(orderService);
 
-  router.post('/orders', adaptRoute(addOneOrderController));
-  router.get('/orders', adaptRoute(loadOrdersHttpController));
+  router.post(
+    '/orders',
+    adaptRoute(new CatchErrorHttpControllerDecorator(addOneOrderController)),
+  );
+  router.get(
+    '/orders',
+    adaptRoute(new CatchErrorHttpControllerDecorator(loadOrdersHttpController)),
+  );
 };

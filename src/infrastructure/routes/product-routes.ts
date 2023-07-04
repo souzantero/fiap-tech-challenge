@@ -8,6 +8,7 @@ import {
   FindManyProductsHttpController,
 } from '../../presentation/controllers/product-http-controller';
 import { InMemoryDatabase } from '../databases/in-memory/in-memory-database';
+import { CatchErrorHttpControllerDecorator } from '../decorators/catch-error-http-controller-decorator';
 
 export const productRoutes = (router: Router) => {
   const productRepository = InMemoryDatabase.getInstance().products;
@@ -25,8 +26,26 @@ export const productRoutes = (router: Router) => {
     productService,
   );
 
-  router.post('/products', adaptRoute(addOneProductController));
-  router.put('/products/:id', adaptRoute(updateOneProductController));
-  router.delete('/products/:id', adaptRoute(removeOneProductController));
-  router.get('/products', adaptRoute(findManyProductsController));
+  router.post(
+    '/products',
+    adaptRoute(new CatchErrorHttpControllerDecorator(addOneProductController)),
+  );
+  router.put(
+    '/products/:id',
+    adaptRoute(
+      new CatchErrorHttpControllerDecorator(updateOneProductController),
+    ),
+  );
+  router.delete(
+    '/products/:id',
+    adaptRoute(
+      new CatchErrorHttpControllerDecorator(removeOneProductController),
+    ),
+  );
+  router.get(
+    '/products',
+    adaptRoute(
+      new CatchErrorHttpControllerDecorator(findManyProductsController),
+    ),
+  );
 };

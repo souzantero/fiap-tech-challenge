@@ -6,6 +6,7 @@ import {
   FindOneCustomerHttpController,
 } from '../../presentation/controllers/customer-http-controller';
 import { InMemoryDatabase } from '../databases/in-memory/in-memory-database';
+import { CatchErrorHttpControllerDecorator } from '../decorators/catch-error-http-controller-decorator';
 
 export const customerRoutes = (router: Router) => {
   const customerRepository = InMemoryDatabase.getInstance().customers;
@@ -17,6 +18,14 @@ export const customerRoutes = (router: Router) => {
     customerService,
   );
 
-  router.post('/customers', adaptRoute(addOneCustomerController));
-  router.get('/customers/:document', adaptRoute(findOneCustomerController));
+  router.post(
+    '/customers',
+    adaptRoute(new CatchErrorHttpControllerDecorator(addOneCustomerController)),
+  );
+  router.get(
+    '/customers/:document',
+    adaptRoute(
+      new CatchErrorHttpControllerDecorator(findOneCustomerController),
+    ),
+  );
 };
