@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -23,18 +23,32 @@ model Customer {
   orders Order[]
 }
 
+enum ProductType {
+  FOOD
+  DRINK
+  SIDE_DISH
+  DESSERT
+}
+
 model Product {
   id        String    @id @default(uuid())
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
 
-  type        String
+  type        ProductType
   name        String
   description String
   price       Float
 
   orderProducts OrderProduct[]
+}
+
+enum OrderStatus {
+  RECEIVED
+  PREPARING
+  READY
+  FINISHED
 }
 
 model Order {
@@ -43,9 +57,9 @@ model Order {
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
 
-  status     String
+  status     OrderStatus
   customerId String
-  customer   Customer @relation(fields: [customerId], references: [id])
+  customer   Customer    @relation(fields: [customerId], references: [id])
 
   orderProducts OrderProduct[]
 }
