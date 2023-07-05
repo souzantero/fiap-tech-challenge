@@ -1,8 +1,6 @@
-import { createApp } from './app';
+import { App } from './app';
 import { InMemoryDatabase } from './databases/in-memory/in-memory-database';
 
 const port = process.env.PORT || 3000;
-const server = createApp(new InMemoryDatabase());
-server.listen(port, () => {
-  console.log(`Server is running at http://localhost:${port}`);
-});
+const app = App.create(new InMemoryDatabase());
+app.start(+port);
