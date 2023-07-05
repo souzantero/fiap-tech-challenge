@@ -1,7 +1,7 @@
 import express, { Router } from 'express';
 import swagger from 'swagger-ui-express';
 
-import openapi from './documentation/openapi';
+import openapi from './documentation/openapi.json';
 import { Repository } from '../core/domain/repositories/repository';
 import { customerRoutes } from './routes/customer-routes';
 import { productRoutes } from './routes/product-routes';
