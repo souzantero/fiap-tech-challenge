@@ -1,7 +1,7 @@
 export type Customer = {
   id: string;
   createdAt: Date;
-  updatedAt: Date | null;
+  updatedAt: Date;
   deletedAt: Date | null;
 
   name: string;

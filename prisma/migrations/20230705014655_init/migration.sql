@@ -2,7 +2,7 @@
 CREATE TABLE "Customer" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" DATETIME,
+    "updatedAt" DATETIME NOT NULL,
     "deletedAt" DATETIME,
     "name" TEXT NOT NULL,
     "email" TEXT NOT NULL,
@@ -13,7 +13,7 @@ CREATE TABLE "Customer" (
 CREATE TABLE "Product" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" DATETIME,
+    "updatedAt" DATETIME NOT NULL,
     "deletedAt" DATETIME,
     "type" TEXT NOT NULL,
     "name" TEXT NOT NULL,
@@ -25,7 +25,7 @@ CREATE TABLE "Product" (
 CREATE TABLE "Order" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" DATETIME,
+    "updatedAt" DATETIME NOT NULL,
     "deletedAt" DATETIME,
     "status" TEXT NOT NULL,
     "customerId" TEXT NOT NULL,
@@ -36,7 +36,7 @@ CREATE TABLE "Order" (
 CREATE TABLE "OrderProduct" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" DATETIME,
+    "updatedAt" DATETIME NOT NULL,
     "deletedAt" DATETIME,
     "quantity" INTEGER NOT NULL,
     "orderId" TEXT NOT NULL,

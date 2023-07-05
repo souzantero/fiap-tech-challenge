@@ -1,29 +1,33 @@
+import { Product } from './product';
+
 export type Order = {
   id: string;
   createdAt: Date;
-  updatedAt: Date | null;
+  updatedAt: Date;
   deletedAt: Date | null;
 
   customerId: string;
   status: OrderStatus;
 
-  products: OrderProduct[];
+  products?: OrderProduct[];
 };
 
 export type OrderProduct = {
   id: string;
   createdAt: Date;
-  updatedAt: Date | null;
+  updatedAt: Date;
   deletedAt: Date | null;
 
-  orderId: string;
-  productId: string;
   quantity: number;
+  orderId: string;
+
+  productId: string;
+  product?: Product;
 };
 
 export enum OrderStatus {
-  Received = 'received',
-  Preparing = 'preparing',
-  Ready = 'ready',
-  Finished = 'finished',
+  Received = 'RECEIVED',
+  Preparing = 'PREPARING',
+  Ready = 'READY',
+  Finished = 'FINISHED',
 }

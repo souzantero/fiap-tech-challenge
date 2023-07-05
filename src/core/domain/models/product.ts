@@ -1,14 +1,14 @@
 export enum ProductType {
-  Sandwich = 'sandwich',
-  SideDish = 'side_dish',
-  Drink = 'drink',
-  Dessert = 'dessert',
+  Food = 'FOOD',
+  SideDish = 'SIDE_DISH',
+  Drink = 'DRINK',
+  Dessert = 'DESSERT',
 }
 
 export type Product = {
   id: string;
   createdAt: Date;
-  updatedAt: Date | null;
+  updatedAt: Date;
   deletedAt: Date | null;
 
   type: ProductType;

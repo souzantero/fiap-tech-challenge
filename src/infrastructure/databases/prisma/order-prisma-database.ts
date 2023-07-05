@@ -2,6 +2,7 @@ import {
   PrismaClient,
   Order as OrderPrismaEntity,
   OrderProduct as OrderProductPrismaEntity,
+  Product as ProductPrismaEntity,
 } from '@prisma/client';
 import {
   CreateOneOrderData,
@@ -13,11 +14,20 @@ import {
   OrderStatus,
 } from '../../../core/domain/models/order';
 import { PrismaDatabaseError } from './prisma-database';
+import { ProductPrismaDatabase } from './product-prisma-database';
+
+export type OrderPrismaEntityWithRelations = OrderPrismaEntity & {
+  orderProducts?: OrderProductPrismaEntityWithRelations[];
+};
+
+export type OrderProductPrismaEntityWithRelations = OrderProductPrismaEntity & {
+  product?: ProductPrismaEntity;
+};
 
 export class OrderPrismaDatabase implements OrderRepository {
   constructor(private readonly prisma: PrismaClient) {}
 
-  static toModel(order: OrderPrismaEntity): Order {
+  static toModel(order: OrderPrismaEntityWithRelations): Order {
     const status = Object.values(OrderStatus).find(
       (status) => status === order.status,
     );
@@ -32,7 +42,7 @@ export class OrderPrismaDatabase implements OrderRepository {
       deletedAt: order.deletedAt,
       customerId: order.customerId,
       status,
-      products: [],
+      products: order.orderProducts?.map(OrderProductPrismaDatabase.toModel),
     };
   }
 
@@ -48,19 +58,35 @@ export class OrderPrismaDatabase implements OrderRepository {
           })),
         },
       },
+      include: {
+        orderProducts: {
+          include: {
+            product: true,
+          },
+        },
+      },
     });
 
     return OrderPrismaDatabase.toModel(order);
   }
 
   async loadAll(): Promise<Order[]> {
-    const orders = await this.prisma.order.findMany();
+    const orders = await this.prisma.order.findMany({
+      include: {
+        orderProducts: {
+          include: {
+            product: true,
+          },
+        },
+      },
+    });
+
     return orders.map(OrderPrismaDatabase.toModel);
   }
 }
 
 export class OrderProductPrismaDatabase {
-  static toModel(order: OrderProductPrismaEntity): OrderProduct {
+  static toModel(order: OrderProductPrismaEntityWithRelations): OrderProduct {
     return {
       id: order.id,
       createdAt: order.createdAt,
@@ -69,6 +95,7 @@ export class OrderProductPrismaDatabase {
       orderId: order.orderId,
       productId: order.productId,
       quantity: order.quantity,
+      product: order.product && ProductPrismaDatabase.toModel(order.product),
     };
   }
 }
