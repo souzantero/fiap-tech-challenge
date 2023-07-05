@@ -16,11 +16,15 @@ export class OrderInMemoryDatabase
     const order: Order = {
       id: orderId,
       createdAt: new Date(),
+      updatedAt: null,
+      deletedAt: null,
       customerId: data.customerId,
       status: data.status,
       products: data.products.map((product) => ({
         id: generateId(),
         createdAt: new Date(),
+        updatedAt: null,
+        deletedAt: null,
         orderId: orderId,
         productId: product.productId,
         quantity: product.quantity,

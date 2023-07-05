@@ -15,6 +15,8 @@ export class CustomerInMemoryDatabase
     const customer = {
       id: generateId(),
       createdAt: new Date(),
+      updatedAt: null,
+      deletedAt: null,
       name: data.name,
       email: data.email,
       document: data.document,

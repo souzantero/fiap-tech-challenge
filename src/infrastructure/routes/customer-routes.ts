@@ -1,16 +1,15 @@
 import { Router } from 'express';
-import { adaptRoute } from './route';
 import { CustomerService } from '../../core/application/services/customer-service';
+import { Repository } from '../../core/domain/repositories/repository';
 import {
   AddOneCustomerHttpController,
   FindOneCustomerHttpController,
 } from '../../presentation/controllers/customer-http-controller';
-import { InMemoryDatabase } from '../databases/in-memory/in-memory-database';
 import { CatchErrorHttpControllerDecorator } from '../decorators/catch-error-http-controller-decorator';
+import { adaptRoute } from './route';
 
-export const customerRoutes = (router: Router) => {
-  const customerRepository = InMemoryDatabase.getInstance().customers;
-  const customerService = new CustomerService(customerRepository);
+export const customerRoutes = (router: Router, repository: Repository) => {
+  const customerService = new CustomerService(repository.customer);
   const addOneCustomerController = new AddOneCustomerHttpController(
     customerService,
   );

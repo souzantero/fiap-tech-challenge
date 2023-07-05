@@ -1,18 +1,17 @@
 import { Router } from 'express';
-import { adaptRoute } from './route';
 import { ProductService } from '../../core/application/services/product-service';
+import { Repository } from '../../core/domain/repositories/repository';
 import {
   AddOneProductHttpController,
   UpdateOneProductHttpController,
   RemoveOneProductHttpController,
   FindManyProductsHttpController,
 } from '../../presentation/controllers/product-http-controller';
-import { InMemoryDatabase } from '../databases/in-memory/in-memory-database';
 import { CatchErrorHttpControllerDecorator } from '../decorators/catch-error-http-controller-decorator';
+import { adaptRoute } from './route';
 
-export const productRoutes = (router: Router) => {
-  const productRepository = InMemoryDatabase.getInstance().products;
-  const productService = new ProductService(productRepository);
+export const productRoutes = (router: Router, repository: Repository) => {
+  const productService = new ProductService(repository.product);
   const addOneProductController = new AddOneProductHttpController(
     productService,
   );

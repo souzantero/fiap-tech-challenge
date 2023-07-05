@@ -8,8 +8,8 @@ export enum ProductType {
 export type Product = {
   id: string;
   createdAt: Date;
-  updatedAt?: Date;
-  deletedAt?: Date;
+  updatedAt: Date | null;
+  deletedAt: Date | null;
 
   type: ProductType;
   name: string;

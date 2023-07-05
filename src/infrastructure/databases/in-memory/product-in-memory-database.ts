@@ -24,6 +24,8 @@ export class ProductInMemoryDatabase
     const product = {
       id: generateId(),
       createdAt: new Date(),
+      updatedAt: null,
+      deletedAt: null,
       type: data.type,
       name: data.name,
       description: data.description,

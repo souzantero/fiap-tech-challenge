@@ -1,21 +1,18 @@
 import { Router } from 'express';
-import { adaptRoute } from './route';
+import { Repository } from '../../core/domain/repositories/repository';
 import { OrderService } from '../../core/application/services/order-service';
 import {
   AddOneOrderHttpController,
   LoadOrdersHttpController,
 } from '../../presentation/controllers/order-http-controller';
-import { InMemoryDatabase } from '../databases/in-memory/in-memory-database';
 import { CatchErrorHttpControllerDecorator } from '../decorators/catch-error-http-controller-decorator';
+import { adaptRoute } from './route';
 
-export const orderRoutes = (router: Router) => {
-  const orderRepository = InMemoryDatabase.getInstance().orders;
-  const customerRepository = InMemoryDatabase.getInstance().customers;
-  const productRepository = InMemoryDatabase.getInstance().products;
+export const orderRoutes = (router: Router, repository: Repository) => {
   const orderService = new OrderService(
-    orderRepository,
-    customerRepository,
-    productRepository,
+    repository.order,
+    repository.customer,
+    repository.product,
   );
   const addOneOrderController = new AddOneOrderHttpController(orderService);
   const loadOrdersHttpController = new LoadOrdersHttpController(orderService);

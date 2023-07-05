@@ -1,8 +1,8 @@
 export type Order = {
   id: string;
   createdAt: Date;
-  updatedAt?: Date;
-  deletedAt?: Date;
+  updatedAt: Date | null;
+  deletedAt: Date | null;
 
   customerId: string;
   status: OrderStatus;
@@ -13,8 +13,8 @@ export type Order = {
 export type OrderProduct = {
   id: string;
   createdAt: Date;
-  updatedAt?: Date;
-  deletedAt?: Date;
+  updatedAt: Date | null;
+  deletedAt: Date | null;
 
   orderId: string;
   productId: string;

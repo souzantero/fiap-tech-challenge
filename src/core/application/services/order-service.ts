@@ -34,7 +34,7 @@ export class OrderService implements AddOrder, LoadOrders {
 
     const order = {
       ...data,
-      status: OrderStatus.Waiting,
+      status: OrderStatus.Received,
     };
 
     return this.orderRepository.createOne(order);
