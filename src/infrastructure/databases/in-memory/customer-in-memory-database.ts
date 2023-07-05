@@ -12,10 +12,11 @@ export class CustomerInMemoryDatabase
   private readonly customers: Customer[] = [];
 
   async createOne(data: CreateOneCustomerData): Promise<Customer> {
+    const now = new Date();
     const customer = {
       id: generateId(),
-      createdAt: new Date(),
-      updatedAt: null,
+      createdAt: now,
+      updatedAt: now,
       deletedAt: null,
       name: data.name,
       email: data.email,

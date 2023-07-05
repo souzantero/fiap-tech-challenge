@@ -21,10 +21,11 @@ export class ProductInMemoryDatabase
   private readonly products: Product[] = [];
 
   async createOne(data: CreateOneProductData): Promise<Product> {
+    const now = new Date();
     const product = {
       id: generateId(),
-      createdAt: new Date(),
-      updatedAt: null,
+      createdAt: now,
+      updatedAt: now,
       deletedAt: null,
       type: data.type,
       name: data.name,

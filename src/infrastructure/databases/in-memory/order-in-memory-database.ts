@@ -12,18 +12,19 @@ export class OrderInMemoryDatabase
   private readonly orders: Order[] = [];
 
   createOne(data: CreateOneOrderData): Promise<Order> {
+    const now = new Date();
     const orderId = generateId();
     const order: Order = {
       id: orderId,
-      createdAt: new Date(),
-      updatedAt: null,
+      createdAt: now,
+      updatedAt: now,
       deletedAt: null,
       customerId: data.customerId,
       status: data.status,
       products: data.products.map((product) => ({
         id: generateId(),
-        createdAt: new Date(),
-        updatedAt: null,
+        createdAt: now,
+        updatedAt: now,
         deletedAt: null,
         orderId: orderId,
         productId: product.productId,
