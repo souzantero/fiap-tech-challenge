@@ -1,9 +1,9 @@
-import { Customer } from '../../core/domain/models/customer';
+import { Customer } from '../../domain/models/customer';
 import {
   AddOneCustomerError,
   AddCustomer,
   FindCustomer,
-} from '../../core/application/use-cases/customer-use-cases';
+} from '../../application/use-cases/customer-use-cases';
 import {
   BadRequestError,
   HttpController,

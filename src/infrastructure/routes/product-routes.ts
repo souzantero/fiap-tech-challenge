@@ -6,7 +6,7 @@ import {
   UpdateOneProductHttpController,
   RemoveOneProductHttpController,
   FindManyProductsHttpController,
-} from '../../presentation/controllers/product-http-controller';
+} from '../../core/presentation/controllers/product-http-controller';
 import { CatchErrorHttpControllerDecorator } from '../decorators/catch-error-http-controller-decorator';
 import { adaptRoute } from './route';
 

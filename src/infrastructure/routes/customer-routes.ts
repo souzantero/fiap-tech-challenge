@@ -4,7 +4,7 @@ import { Repository } from '../../core/domain/repositories/repository';
 import {
   AddOneCustomerHttpController,
   FindOneCustomerHttpController,
-} from '../../presentation/controllers/customer-http-controller';
+} from '../../core/presentation/controllers/customer-http-controller';
 import { CatchErrorHttpControllerDecorator } from '../decorators/catch-error-http-controller-decorator';
 import { adaptRoute } from './route';
 

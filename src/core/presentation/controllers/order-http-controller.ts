@@ -1,11 +1,11 @@
-import { Order } from '../../core/domain/models/order';
+import { Order } from '../../domain/models/order';
 import {
   AddOneOrderData,
   AddOrder,
   CustomerNotFoundError,
   LoadOrders,
   ProductsNotFoundError,
-} from '../../core/application/use-cases/order-use-cases';
+} from '../../application/use-cases/order-use-cases';
 import {
   BadRequestError,
   HttpController,

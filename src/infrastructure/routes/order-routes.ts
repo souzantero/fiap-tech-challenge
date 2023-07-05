@@ -4,7 +4,7 @@ import { OrderService } from '../../core/application/services/order-service';
 import {
   AddOneOrderHttpController,
   LoadOrdersHttpController,
-} from '../../presentation/controllers/order-http-controller';
+} from '../../core/presentation/controllers/order-http-controller';
 import { CatchErrorHttpControllerDecorator } from '../decorators/catch-error-http-controller-decorator';
 import { adaptRoute } from './route';
 
