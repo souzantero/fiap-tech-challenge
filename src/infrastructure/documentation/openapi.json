@@ -334,6 +334,88 @@
           }
         }
       }
+    },
+    "/orders": {
+      "get": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Lista todos os pedidos",
+        "operationId": "getOrders",
+        "responses": {
+          "200": {
+            "description": "Pedidos encontrados",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Order"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Cria um novo pedido",
+        "operationId": "createOrder",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Order"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Pedido criado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Order"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Requisição inválida",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -461,6 +543,107 @@
             ],
             "example": "DRINK",
             "description": "Tipo do produto"
+          }
+        }
+      },
+      "Order": {
+        "type": "object",
+        "required": [
+          "customerId",
+          "products"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Identificador único do pedido"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Data de criação do pedido"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Data de atualização do pedido"
+          },
+          "deletedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Data de exclusão do pedido"
+          },
+          "customerId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Identificador único do cliente"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "RECEIVED",
+              "PREPARING",
+              "READY",
+              "FINISHED"
+            ],
+            "example": "RECEIVED",
+            "description": "Status do pedido"
+          },
+          "products": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderProduct"
+            },
+            "description": "Produtos do pedido"
+          }
+        }
+      },
+      "OrderProduct": {
+        "type": "object",
+        "required": [
+          "productId",
+          "quantity"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Identificador único do produto do pedido"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Data de criação do produto do pedido"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Data de atualização do produto do pedido"
+          },
+          "deletedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Data de exclusão do produto do pedido"
+          },
+          "quantity": {
+            "type": "integer",
+            "format": "int32",
+            "example": 2,
+            "description": "Quantidade do produto"
+          },
+          "orderId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Identificador único do pedido"
+          },
+          "productId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Identificador único do produto"
+          },
+          "product": {
+            "$ref": "#/components/schemas/Product",
+            "description": "Produto do pedido"
           }
         }
       }
