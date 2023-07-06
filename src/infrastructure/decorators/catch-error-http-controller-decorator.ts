@@ -14,6 +14,7 @@ export class CatchErrorHttpControllerDecorator<T> implements HttpController<T> {
       return await this.httpController.handle(request);
     } catch (error) {
       if (error instanceof HttpError) throw error;
+      console.error(error);
       const { stack } = error as Error;
       throw new InternalServerError(stack);
     }
