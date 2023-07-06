@@ -9,5 +9,184 @@
       "email": "souzantero@gmail.com",
       "url": "https://linkedin.com/in/souzantero"
     }
+  },
+  "servers": [
+    {
+      "url": "/api",
+      "description": "Servidor de desenvolvimento"
+    }
+  ],
+  "paths": {
+    "/customers": {
+      "post": {
+        "tags": [
+          "Customers"
+        ],
+        "summary": "Cria um novo cliente",
+        "operationId": "createCustomer",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Customer"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Cliente criado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Customer"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Requisição inválida",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/customers/{document}": {
+      "get": {
+        "tags": [
+          "Customers"
+        ],
+        "summary": "Busca um cliente pelo CPF",
+        "operationId": "getCustomerByDocument",
+        "parameters": [
+          {
+            "name": "document",
+            "in": "path",
+            "description": "CPF do cliente",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9]{11}$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Cliente encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Customer"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Cliente não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Error": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Mensagem de erro",
+            "example": "Erro ao executar a operação"
+          }
+        }
+      },
+      "Customer": {
+        "type": "object",
+        "required": [
+          "name",
+          "email",
+          "document"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Identificador único do cliente"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Data de criação do cliente"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Data de atualização do cliente"
+          },
+          "deletedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Data de exclusão do cliente"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 255,
+            "example": "Tom Zé",
+            "description": "Nome do cliente"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "tomze@email.com",
+            "description": "E-mail do cliente",
+            "minLength": 3,
+            "maxLength": 255,
+            "pattern": "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$"
+          },
+          "document": {
+            "type": "string",
+            "description": "CPF do cliente",
+            "minLength": 11,
+            "maxLength": 11,
+            "pattern": "^[0-9]{11}$",
+            "example": "12345678900"
+          }
+        }
+      }
+    }
   }
 }
