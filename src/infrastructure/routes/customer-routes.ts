@@ -22,7 +22,7 @@ export const customerRoutes = (router: Router, repository: Repository) => {
     adaptRoute(new CatchErrorHttpControllerDecorator(addOneCustomerController)),
   );
   router.get(
-    '/customers/:document',
+    '/customers/document/:document',
     adaptRoute(
       new CatchErrorHttpControllerDecorator(findOneCustomerController),
     ),

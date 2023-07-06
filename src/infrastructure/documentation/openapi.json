@@ -67,7 +67,7 @@
         }
       }
     },
-    "/customers/{document}": {
+    "/customers/document/{document}": {
       "get": {
         "tags": [
           "Customers"
