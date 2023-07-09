@@ -1,70 +1,95 @@
 # FIAP TECH CHALLENGE
 
-Short project description goes here. 
+## Primeiros Passos
 
-## Getting Started
+Estas instruções irão ajudá-lo a obter uma cópia do projeto em sua máquina local para fins de desenvolvimento e testes.
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
+### Pré-requisitos
 
-### Prerequisites
+O que você precisa instalar na sua máquina local.
 
-What things you need to install the software and how to install them.
+- Node.js (v20.3)
+- Docker
 
-- Node.js
-- TypeScript
-- Express
+### Instalação
 
-### Installing
-
-A step by step series of examples that tell you how to get a development environment running.
+Como configurar o ambiente de desenvolvimento.
 
 ```bash
-# Clone the repository
+# Clone o repositório
 git clone https://github.com/souzantero/fiap-tech-challenge.git
 
-# Enter into the directory
+# Acesse o diretório
 cd fiap-tech-challenge/
 
-# Install the dependencies
+# Instale as dependências
 npm install
 ```
 
-## Running the tests
+## Iniciando o servidor
 
-Explain how to run the automated tests for this system.
+Como iniciar o servidor em modo de desenvolvimento.
 
-```bash
-npm test
+Crie um arquivo `.env` na raiz do projeto e cole o seguinte conteúdo.
+
+```
+DATABASE_USER=postgres
+DATABASE_PASSWORD=postgres
+DATABASE_NAME=fiap_tech_challenge_db
+DATABASE_URL=postgresql://postgres:postgres@localhost:5432/fiap_tech_challenge_db
 ```
 
-## Starting the server
-
-How to start the server.
+Execute o serviço Docker Compose para o PostgreSQL.
 
 ```bash
-npm start
+docker-compose up -d db
 ```
 
-## Deployment
+Crie o banco de dados.
 
-Add additional notes about how to deploy this on a live system.
+```bash
+npx prisma migrate dev
+```
 
-## Built With
+Inicie a aplicação.
 
-- [Node.js](http://www.nodejs.org/) - The runtime server framework.
-- [Express.js](https://expressjs.com/) - Node.js web application framework.
-- [TypeScript](https://www.typescriptlang.org/) - Used for static typing in JavaScript.
+```bash
+npm run start:dev
+```
 
-## Contributing
+Para iniciar em modo de produção.
 
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
+```bash
+npm run build
+npm run start
+```
 
-## Authors
+Ou execute o serviço Docker Compose.
 
-- **Felipe Antero** - *Initial work* - [souzantero](https://github.com/souzantero)
+```bash
+docker-compose up -d app
+```
 
-See also the list of [contributors](https://github.com/yourusername/repo/contributors) who participated in this project.
+## Open API
 
-## License
+Para acessar o painel Open API e visualizar os endpoints disponíveis na API. 
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+`http://localhost:3000/api/docs`
+
+
+> Disponível apenas no ambiente de `desenvolvimento`
+
+## Construído com
+
+- [Node.js](http://www.nodejs.org/) - A estrutura do servidor em tempo de execução.
+- [TypeScript](https://www.typescriptlang.org/) - Usado para tipagem estática no JavaScript.
+- [Express.js](https://expressjs.com/) - Estrutura de aplicativo da web Node.js.
+- [Prisma](https://www.prisma.io/) - ORM Node.js e TypeScript.
+
+## Autores
+
+- **Felipe Antero** - _Trabalho inicial_ - [souzantero](https://github.com/souzantero)
+
+## Licença
+
+Este projeto está licenciado sob a Licença MIT - consulte o arquivo [LICENSE.md](LICENSE.md) para obter detalhes.
