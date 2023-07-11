@@ -1,3 +1,4 @@
+import { Server } from 'node:http';
 import express, { Router } from 'express';
 import swagger from 'swagger-ui-express';
 
@@ -26,8 +27,8 @@ export class App {
     this.app.use('/api/docs', swagger.serve, swagger.setup(openapi));
   }
 
-  start(port: number): void {
-    this.app.listen(port, () => {
+  start(port: number): Server {
+    return this.app.listen(port, () => {
       console.log(`Server is running at http://localhost:${port}`);
     });
   }

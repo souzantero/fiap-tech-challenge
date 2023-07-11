@@ -17,4 +17,20 @@ export class PrismaDatabase implements Repository {
   public readonly customer = new CustomerPrismaDatabase(this.prisma);
   public readonly product = new ProductPrismaDatabase(this.prisma);
   public readonly order = new OrderPrismaDatabase(this.prisma);
+
+  connect(): Promise<void> {
+    return this.prisma.$connect();
+  }
+
+  disconnect(): Promise<void> {
+    return this.prisma.$disconnect();
+  }
+
+  async drop(): Promise<void> {
+    await Promise.all([
+      this.prisma.customer.deleteMany(),
+      this.prisma.product.deleteMany(),
+      this.prisma.order.deleteMany(),
+    ]);
+  }
 }
