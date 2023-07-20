@@ -20,7 +20,7 @@ Como configurar o ambiente de desenvolvimento.
 git clone https://github.com/souzantero/fiap-tech-challenge.git
 
 # Acesse o diretório
-cd fiap-tech-challenge/
+cd fiap-tech-challenge/solution
 
 # Instale as dependências
 npm install
@@ -30,22 +30,19 @@ npm install
 
 Como iniciar o servidor em modo de desenvolvimento.
 
-Crie um arquivo `.env` na raiz do projeto e cole o seguinte conteúdo.
+Crie um arquivo `.env` na raiz da solução e cole o seguinte conteúdo.
 
 ```
-DATABASE_USER=postgres
-DATABASE_PASSWORD=postgres
-DATABASE_NAME=fiap_tech_challenge_db
 DATABASE_URL=postgresql://postgres:postgres@localhost:5432/fiap_tech_challenge_db
 ```
 
-Execute o serviço Docker Compose para o PostgreSQL.
+Navegue até a raiz do repositório e execute o serviço Docker Compose para iniciar o PostgreSQL.
 
 ```bash
-docker-compose up -d db
+docker-compose up -d
 ```
 
-Crie o banco de dados.
+Volte para a raíz da solução crie o banco de dados.
 
 ```bash
 npx prisma migrate dev
