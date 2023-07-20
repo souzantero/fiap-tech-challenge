@@ -6,7 +6,7 @@ metadata:
     app: server
 spec:
   containers:
-    - name: server
+    - name: server-container
       image: souzantero/fiap-tech-challenge:latest
       env:
         - name: PORT
@@ -19,3 +19,7 @@ spec:
             configMapKeyRef:
               name: server-config
               key: DATABASE_URL
+      resources:
+        limits:
+          memory: '128Mi'
+          cpu: '500m'

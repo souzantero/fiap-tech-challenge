@@ -64,12 +64,6 @@ npm run build
 npm run start
 ```
 
-Ou execute o serviço Docker Compose.
-
-```bash
-docker-compose up -d app
-```
-
 ## Open API
 
 Para acessar o painel Open API e visualizar os endpoints disponíveis na API. 
