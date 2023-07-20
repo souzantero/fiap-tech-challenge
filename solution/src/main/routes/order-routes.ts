@@ -5,7 +5,7 @@ import {
   AddOneOrderHttpController,
   LoadOrdersHttpController,
 } from '../../core/presentation/controllers/order-http-controller';
-import { CatchErrorHttpControllerDecorator } from '../decorators/catch-error-http-controller-decorator';
+import { CatchErrorHttpControllerDecorator } from '../../core/presentation/decorators/catch-error-http-controller-decorator';
 import { adaptRoute } from './route';
 
 export const orderRoutes = (router: Router, repository: Repository) => {

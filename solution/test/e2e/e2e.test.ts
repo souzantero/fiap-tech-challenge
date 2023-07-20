@@ -2,8 +2,8 @@ import { after, before, beforeEach, describe, it } from 'node:test';
 import { Server } from 'node:http';
 import { AddressInfo } from 'node:net';
 
-import { App } from '../../src/infrastructure/app';
-import { PrismaDatabase } from '../../src/infrastructure/databases/prisma/prisma-database';
+import { App } from '../../src/main/app';
+import { PrismaDatabase } from '../../src/main/databases/prisma/prisma-database';
 import { shouldCreateANewCustomer } from './asserts/customer-asserts';
 
 const database = new PrismaDatabase();

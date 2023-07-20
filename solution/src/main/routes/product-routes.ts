@@ -7,7 +7,7 @@ import {
   RemoveOneProductHttpController,
   FindManyProductsHttpController,
 } from '../../core/presentation/controllers/product-http-controller';
-import { CatchErrorHttpControllerDecorator } from '../decorators/catch-error-http-controller-decorator';
+import { CatchErrorHttpControllerDecorator } from '../../core/presentation/decorators/catch-error-http-controller-decorator';
 import { adaptRoute } from './route';
 
 export const productRoutes = (router: Router, repository: Repository) => {

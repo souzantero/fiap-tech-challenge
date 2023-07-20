@@ -8,9 +8,9 @@
     "lint": "eslint '*/**/*.ts'",
     "prebuild": "rimraf dist",
     "build": "tsc -p tsconfig-build.json",
-    "start": "NODE_ENV=production node --require ./dist/infrastructure/observability/instrumentation.js dist/infrastructure/server.js",
-    "start:dev": "NODE_ENV=development nodemon -L --watch ./src --exec ts-node --require ./src/infrastructure/observability/instrumentation.ts ./src/infrastructure/server.ts",
-    "debug": "NODE_ENV=development nodemon -L --watch ./dist --inspect=0.0.0.0:9222 --nolazy ./dist/infrastructure/server.js",
+    "start": "NODE_ENV=production node --require ./dist/main/observability/instrumentation.js dist/main/server.js",
+    "start:dev": "NODE_ENV=development nodemon -L --watch ./src --exec ts-node --require ./src/main/observability/instrumentation.ts ./src/main/server.ts",
+    "debug": "NODE_ENV=development nodemon -L --watch ./dist --inspect=0.0.0.0:9222 --nolazy ./dist/main/server.js",
     "test:e2e": "NODE_ENV=test ts-node test/e2e/*.test.ts"
   },
   "keywords": [],

@@ -5,7 +5,7 @@ import {
   AddOneCustomerHttpController,
   FindOneCustomerHttpController,
 } from '../../core/presentation/controllers/customer-http-controller';
-import { CatchErrorHttpControllerDecorator } from '../decorators/catch-error-http-controller-decorator';
+import { CatchErrorHttpControllerDecorator } from '../../core/presentation/decorators/catch-error-http-controller-decorator';
 import { adaptRoute } from './route';
 
 export const customerRoutes = (router: Router, repository: Repository) => {
