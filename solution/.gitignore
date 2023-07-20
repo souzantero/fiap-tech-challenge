@@ -62,7 +62,7 @@ jspm_packages/
 .serverless/
 
 # Dist directory (compiled files)
-/dist
+dist
 
 # IDEs and editors
 /.idea
