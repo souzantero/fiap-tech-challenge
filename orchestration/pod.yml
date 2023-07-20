@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: server
+  labels:
+    app: server
+spec:
+  containers:
+    - name: server
+      image: souzantero/fiap-tech-challenge:latest
+      env:
+        - name: PORT
+          valueFrom:
+            configMapKeyRef:
+              name: server-config
+              key: PORT
+        - name: DATABASE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: server-config
+              key: DATABASE_URL
