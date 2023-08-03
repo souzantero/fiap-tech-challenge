@@ -19,7 +19,15 @@ export class App {
     customerRoutes(router, repository);
     productRoutes(router, repository);
     orderRoutes(router, repository);
+
+    router.get('/health', (_, res) =>
+      res.status(200).json({
+        uptime: process.uptime(),
+      }),
+    );
+
     app.use('/api', router);
+
     return new App(app);
   }
 

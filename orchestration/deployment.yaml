@@ -17,18 +17,29 @@ spec:
       containers:
         - name: server-container
           image: souzantero/fiap-tech-challenge-server:latest
+          resources:
+            limits:
+              memory: '128Mi'
+              cpu: '500m'
+          ports:
+            - containerPort: 3000
+          livenessProbe:
+            httpGet:
+              path: /api/health
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /api/health
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 5
           env:
             - name: PORT
-              valueFrom:
-                configMapKeyRef:
-                  name: server-config
-                  key: PORT
+              value: '3000'
             - name: DATABASE_URL
               valueFrom:
                 configMapKeyRef:
                   name: server-config
                   key: DATABASE_URL
-          resources:
-            limits:
-              memory: '128Mi'
-              cpu: '500m'

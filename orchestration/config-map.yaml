@@ -3,5 +3,4 @@ kind: ConfigMap
 metadata:
   name: server-config
 data:
-  PORT: '3000'
   DATABASE_URL: 'postgres://postgres:postgres@host.docker.internal:5432/fiap_tech_challenge_db'
