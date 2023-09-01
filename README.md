@@ -20,7 +20,7 @@ Como configurar o ambiente de desenvolvimento.
 git clone https://github.com/souzantero/fiap-tech-challenge.git
 
 # Acesse o diretório
-cd fiap-tech-challenge/solution
+cd fiap-tech-challenge/
 
 # Instale as dependências
 npm install
@@ -66,9 +66,6 @@ npm run start
 Para acessar o painel Open API e visualizar os endpoints disponíveis na API. 
 
 `http://localhost:3000/api/docs`
-
-
-> Disponível apenas no ambiente de `desenvolvimento`
 
 ## Construído com
 

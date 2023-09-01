@@ -27,12 +27,9 @@ export class App {
     );
 
     app.use('/api', router);
+    app.use('/api/docs', swagger.serve, swagger.setup(openapi));
 
     return new App(app);
-  }
-
-  swagger(): void {
-    this.app.use('/api/docs', swagger.serve, swagger.setup(openapi));
   }
 
   start(port: number): Server {
