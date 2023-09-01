@@ -30,19 +30,19 @@ npm install
 
 Como iniciar o servidor em modo de desenvolvimento.
 
-Crie um arquivo `.env` na raiz da solução e cole o seguinte conteúdo.
+Crie um arquivo `.env` na raiz do diretório e cole o seguinte conteúdo.
 
 ```
 DATABASE_URL=postgresql://postgres:postgres@localhost:5432/fiap_tech_challenge_db
 ```
 
-Navegue até a raiz do repositório e execute o serviço Docker Compose para iniciar o PostgreSQL.
+Execute o serviço Docker Compose para iniciar o PostgreSQL.
 
 ```bash
-docker-compose up -d
+docker-compose up -d database
 ```
 
-Volte para a raíz da solução crie o banco de dados.
+Crie o banco de dados.
 
 ```bash
 npx prisma migrate dev
@@ -59,6 +59,14 @@ Para iniciar em modo de produção.
 ```bash
 npm run build
 npm run start
+```
+
+Como iniciar o servidor com o Docker Compose
+
+Execute o serviço Docker Compose para iniciar o servidor Node.js.
+
+```bash
+docker-compose up -d server
 ```
 
 ## Open API
