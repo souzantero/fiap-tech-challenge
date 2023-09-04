@@ -567,6 +567,66 @@
           }
         }
       }
+    },
+    "/orders/{id}/hooks/mercado-pago": {
+      "post": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Webhook do Mercado Pago",
+        "operationId": "mercadoPagoWebhook",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Identificador único do pedido",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "status"
+                ],
+                "properties": {
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "approved",
+                      "pending",
+                      "in_process",
+                      "rejected",
+                      "cancelled",
+                      "refunded",
+                      "charged_back"
+                    ],
+                    "example": "approved",
+                    "description": "Status do pagamento"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Webhook recebido com sucesso"
+          },
+          "400": {
+            "description": "Requisição inválida"
+          },
+          "500": {
+            "description": "Erro interno"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -728,6 +788,11 @@
             "type": "string",
             "format": "uuid",
             "description": "Identificador único do cliente"
+          },
+          "paid": {
+            "type": "boolean",
+            "example": true,
+            "description": "Indica se o pedido foi pago"
           },
           "status": {
             "type": "string",

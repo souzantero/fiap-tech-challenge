@@ -6,6 +6,7 @@ import {
   AddOneOrderHttpController,
   CheckOrderIsPaidHttpController,
   FindOrdersHttpController,
+  MercadoPagoWebhookHttpController,
   UpdateOrderStatusHttpController,
 } from '../../core/presentation/controllers/order-http-controller';
 import { CatchErrorHttpControllerDecorator } from '../../core/presentation/decorators/catch-error-http-controller-decorator';
@@ -35,5 +36,15 @@ export const makeUpdateOrderStatusHttpController = (repository: Repository) => {
 export const makeCheckOrderIsPaidHttpController = (repository: Repository) => {
   return new CatchErrorHttpControllerDecorator(
     new CheckOrderIsPaidHttpController(new FindOrders(repository.order)),
+  );
+};
+
+export const makeMercadoPagoWebhookHttpController = (
+  repository: Repository,
+) => {
+  return new CatchErrorHttpControllerDecorator(
+    new MercadoPagoWebhookHttpController(
+      new UpdateOrder(repository.order, new FindOrders(repository.order)),
+    ),
   );
 };
