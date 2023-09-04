@@ -340,7 +340,7 @@
         "tags": [
           "Orders"
         ],
-        "summary": "Lista todos os pedidos",
+        "summary": "Lista todos os pedidos não finalizados",
         "operationId": "getOrders",
         "responses": {
           "200": {
@@ -396,6 +396,94 @@
           },
           "400": {
             "description": "Requisição inválida",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orders/{id}/status": {
+      "patch": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Atualiza o status de um pedido",
+        "operationId": "updateOrderStatus",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Identificador único do pedido",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "status"
+                ],
+                "properties": {
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "RECEIVED",
+                      "PREPARING",
+                      "READY",
+                      "FINISHED"
+                    ],
+                    "example": "PREPARING",
+                    "description": "Status do pedido"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Status do pedido atualizado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Order"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Requisição inválida",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Pedido não encontrado",
             "content": {
               "application/json": {
                 "schema": {

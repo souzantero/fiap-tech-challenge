@@ -6,3 +6,4 @@ export * from './remove-product';
 export * from './update-product';
 export * from './add-order';
 export * from './find-orders';
+export * from './update-order';

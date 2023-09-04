@@ -3,7 +3,10 @@ import {
   AddOneOrderData,
   AddOrder,
   CustomerNotFoundError,
+  FindOneOrderByIdError,
+  FindOrders,
   ProductsNotFoundError,
+  UpdateOrder,
 } from '../../application/use-cases';
 import {
   BadRequestError,
@@ -11,7 +14,6 @@ import {
   HttpRequest,
   HttpResponse,
 } from './http-controller';
-import { FindOrders } from '../../application/use-cases/find-orders';
 
 export class AddOneOrderHttpController implements HttpController<Order> {
   constructor(private readonly addOrder: AddOrder) {}
@@ -43,6 +45,28 @@ export class AddOneOrderHttpController implements HttpController<Order> {
         throw new BadRequestError('Customer not found');
       else if (error instanceof ProductsNotFoundError)
         throw new BadRequestError(error.message);
+      throw error;
+    }
+  }
+}
+
+export class UpdateOrderStatusHttpController implements HttpController<Order> {
+  constructor(private readonly updateOrder: UpdateOrder) {}
+
+  async handle(request: HttpRequest): Promise<HttpResponse<Order>> {
+    const { id } = request.params;
+    const { status } = request.body;
+
+    if (!status) {
+      throw new BadRequestError('Missing status');
+    }
+
+    try {
+      const order = await this.updateOrder.updateOneById(id, { status });
+      return HttpResponse.ok(order);
+    } catch (error) {
+      if (error instanceof FindOneOrderByIdError)
+        throw new BadRequestError('Order not found');
       throw error;
     }
   }

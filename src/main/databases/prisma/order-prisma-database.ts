@@ -7,6 +7,7 @@ import {
 import {
   CreateOneOrderData,
   OrderRepository,
+  UpdateOneOrderData,
 } from '../../../core/domain/repositories/order-repository';
 import {
   Order,
@@ -25,7 +26,7 @@ export type OrderProductPrismaEntityWithRelations = OrderProductPrismaEntity & {
 };
 
 export class OrderPrismaDatabase implements OrderRepository {
-  constructor(private readonly prisma: PrismaClient) { }
+  constructor(private readonly prisma: PrismaClient) {}
 
   static toModel(order: OrderPrismaEntityWithRelations): Order {
     const status = Object.values(OrderStatus).find(
@@ -70,6 +71,19 @@ export class OrderPrismaDatabase implements OrderRepository {
     return OrderPrismaDatabase.toModel(order);
   }
 
+  async updateOneById(id: string, data: UpdateOneOrderData): Promise<Order> {
+    const order = await this.prisma.order.update({
+      where: {
+        id,
+      },
+      data: {
+        status: data.status,
+      },
+    });
+
+    return OrderPrismaDatabase.toModel(order);
+  }
+
   async findNotFinished(): Promise<Order[]> {
     const orders = await this.prisma.order.findMany({
       where: {
@@ -87,6 +101,25 @@ export class OrderPrismaDatabase implements OrderRepository {
     });
 
     return orders.map(OrderPrismaDatabase.toModel);
+  }
+
+  async findOneById(id: string): Promise<Order | null> {
+    const order = await this.prisma.order.findUnique({
+      where: {
+        id,
+      },
+      include: {
+        orderProducts: {
+          include: {
+            product: true,
+          },
+        },
+      },
+    });
+
+    if (!order) return null;
+
+    return OrderPrismaDatabase.toModel(order);
   }
 }
 

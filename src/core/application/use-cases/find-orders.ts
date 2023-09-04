@@ -2,7 +2,13 @@ import { Order, OrderStatus } from '../../domain/entities/order';
 import { OrderRepository } from '../../domain/repositories/order-repository';
 
 export class FindOrders {
-  constructor(private readonly orderRepository: OrderRepository) { }
+  constructor(private readonly orderRepository: OrderRepository) {}
+
+  async findOneById(id: string): Promise<Order> {
+    const order = await this.orderRepository.findOneById(id);
+    if (!order) throw new FindOneOrderByIdError(`Order not found: ${id}`);
+    return order;
+  }
 
   async findAll(): Promise<Order[]> {
     const orders = await this.orderRepository.findNotFinished();
@@ -31,5 +37,12 @@ export class FindOrders {
       default:
         throw new Error(`Invalid order status: ${status}`);
     }
+  }
+}
+
+export class FindOneOrderByIdError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'FindOneOrderByIdError';
   }
 }

@@ -1,9 +1,11 @@
+import { UpdateOrder } from '../../core/application/use-cases';
 import { AddOrder } from '../../core/application/use-cases/add-order';
 import { FindOrders } from '../../core/application/use-cases/find-orders';
 import { Repository } from '../../core/domain/repositories/repository';
 import {
   AddOneOrderHttpController,
   FindOrdersHttpController,
+  UpdateOrderStatusHttpController,
 } from '../../core/presentation/controllers/order-http-controller';
 import { CatchErrorHttpControllerDecorator } from '../../core/presentation/decorators/catch-error-http-controller-decorator';
 
@@ -17,6 +19,14 @@ export const makeAddOneOrderHttpController = (repository: Repository) => {
   return new CatchErrorHttpControllerDecorator(
     new AddOneOrderHttpController(
       new AddOrder(repository.order, repository.customer, repository.product),
+    ),
+  );
+};
+
+export const makeUpdateOrderStatusHttpController = (repository: Repository) => {
+  return new CatchErrorHttpControllerDecorator(
+    new UpdateOrderStatusHttpController(
+      new UpdateOrder(repository.order, new FindOrders(repository.order)),
     ),
   );
 };

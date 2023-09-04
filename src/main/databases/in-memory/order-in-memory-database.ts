@@ -7,7 +7,8 @@ import {
 import { generateId } from './in-memory-database';
 
 export class OrderInMemoryDatabase
-  implements CreateOneOrderRepository, FindOrdersRepository {
+  implements CreateOneOrderRepository, FindOrdersRepository
+{
   private readonly orders: Order[] = [];
 
   createOne(data: CreateOneOrderData): Promise<Order> {
@@ -37,6 +38,8 @@ export class OrderInMemoryDatabase
   }
 
   findNotFinished(): Promise<Order[]> {
-    return Promise.resolve(this.orders.filter((order) => order.status !== 'FINISHED'));
+    return Promise.resolve(
+      this.orders.filter((order) => order.status !== 'FINISHED'),
+    );
   }
 }
