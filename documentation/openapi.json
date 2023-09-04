@@ -28,7 +28,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Customer"
+                "$ref": "#/components/schemas/CustomerInput"
               }
             }
           }
@@ -180,7 +180,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Product"
+                "$ref": "#/components/schemas/ProductInput"
               }
             }
           }
@@ -242,7 +242,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Product"
+                "$ref": "#/components/schemas/ProductInput"
               }
             }
           }
@@ -367,7 +367,9 @@
             }
           }
         }
-      },
+      }
+    },
+    "/orders/checkout": {
       "post": {
         "tags": [
           "Orders"
@@ -378,7 +380,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Order"
+                "$ref": "#/components/schemas/OrderInput"
               }
             }
           }
@@ -695,6 +697,40 @@
           }
         }
       },
+      "CustomerInput": {
+        "type": "object",
+        "required": [
+          "name",
+          "email",
+          "document"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 255,
+            "example": "Tom Zé",
+            "description": "Nome do cliente"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "tomze@email.com",
+            "description": "E-mail do cliente",
+            "minLength": 3,
+            "maxLength": 255,
+            "pattern": "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$"
+          },
+          "document": {
+            "type": "string",
+            "description": "CPF do cliente",
+            "minLength": 11,
+            "maxLength": 11,
+            "pattern": "^[0-9]{11}$",
+            "example": "12345678900"
+          }
+        }
+      },
       "Product": {
         "type": "object",
         "required": [
@@ -724,6 +760,48 @@
             "format": "date-time",
             "description": "Data de exclusão do produto"
           },
+          "name": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 255,
+            "example": "Coca-Cola",
+            "description": "Nome do produto"
+          },
+          "description": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 255,
+            "example": "Refrigerante de cola",
+            "description": "Descrição do produto"
+          },
+          "price": {
+            "type": "number",
+            "format": "float",
+            "example": 5.5,
+            "description": "Preço do produto"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "FOOD",
+              "DRINK",
+              "SIDE_DISH",
+              "DESSERT"
+            ],
+            "example": "DRINK",
+            "description": "Tipo do produto"
+          }
+        }
+      },
+      "ProductInput": {
+        "type": "object",
+        "required": [
+          "name",
+          "description",
+          "price",
+          "type"
+        ],
+        "properties": {
           "name": {
             "type": "string",
             "minLength": 3,
@@ -860,6 +938,44 @@
           "product": {
             "$ref": "#/components/schemas/Product",
             "description": "Produto do pedido"
+          }
+        }
+      },
+      "OrderInput": {
+        "type": "object",
+        "required": [
+          "customerId",
+          "products"
+        ],
+        "properties": {
+          "customerId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Identificador único do cliente"
+          },
+          "products": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "productId",
+                "quantity"
+              ],
+              "properties": {
+                "productId": {
+                  "type": "string",
+                  "format": "uuid",
+                  "description": "Identificador único do produto"
+                },
+                "quantity": {
+                  "type": "integer",
+                  "format": "int32",
+                  "example": 2,
+                  "description": "Quantidade do produto"
+                }
+              }
+            },
+            "description": "Produtos do pedido"
           }
         }
       }

@@ -10,7 +10,10 @@ import {
 import { adaptRoute } from './route';
 
 export const orderRoutes = (router: Router, repository: Repository) => {
-  router.post('/orders', adaptRoute(makeAddOneOrderHttpController(repository)));
+  router.post(
+    '/orders/checkout',
+    adaptRoute(makeAddOneOrderHttpController(repository)),
+  );
   router.post(
     '/orders/:id/hooks/mercado-pago',
     adaptRoute(makeMercadoPagoWebhookHttpController(repository)),

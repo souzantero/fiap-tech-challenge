@@ -20,6 +20,7 @@ export class OrderInMemoryDatabase
       updatedAt: now,
       deletedAt: null,
       customerId: data.customerId,
+      paid: false,
       status: data.status,
       products: data.products.map((product) => ({
         id: generateId(),
