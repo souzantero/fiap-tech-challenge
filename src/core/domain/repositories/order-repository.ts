@@ -13,8 +13,8 @@ export interface CreateOneOrderRepository {
   createOne(data: CreateOneOrderData): Promise<Order>;
 }
 
-export interface LoadOrdersRepository {
-  loadAll(): Promise<Order[]>;
+export interface FindOrdersRepository {
+  findAll(): Promise<Order[]>;
 }
 
-export type OrderRepository = CreateOneOrderRepository & LoadOrdersRepository;
+export type OrderRepository = CreateOneOrderRepository & FindOrdersRepository;

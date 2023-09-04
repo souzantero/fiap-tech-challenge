@@ -1,16 +1,12 @@
 import { Order, OrderStatus } from '../../domain/entities/order';
 import { FindOneCustomerRepository } from '../../domain/repositories/customer-repository';
-import { OrderRepository } from '../../domain/repositories/order-repository';
-import { FindManyProductsRepository } from '../../domain/repositories/product-repository';
 import {
-  AddOneOrderData,
-  AddOrder,
-  CustomerNotFoundError,
-  LoadOrders,
-  ProductsNotFoundError,
-} from '../use-cases/order-use-cases';
+  CreateOneOrderData,
+  OrderRepository,
+} from '../../domain/repositories/order-repository';
+import { FindManyProductsRepository } from '../../domain/repositories/product-repository';
 
-export class OrderService implements AddOrder, LoadOrders {
+export class AddOrder {
   constructor(
     private readonly orderRepository: OrderRepository,
     private readonly findOneCustomer: FindOneCustomerRepository,
@@ -39,8 +35,20 @@ export class OrderService implements AddOrder, LoadOrders {
 
     return this.orderRepository.createOne(order);
   }
+}
 
-  loadAll(): Promise<Order[]> {
-    return this.orderRepository.loadAll();
+export class CustomerNotFoundError extends Error {
+  constructor() {
+    super('Customer not found');
+    this.name = 'CustomerNotFoundError';
   }
 }
+
+export class ProductsNotFoundError extends Error {
+  constructor(productIds: string[]) {
+    super(`Products not found: ${productIds.join(', ')}`);
+    this.name = 'ProductNotFoundError';
+  }
+}
+
+export type AddOneOrderData = Omit<CreateOneOrderData, 'status'>;

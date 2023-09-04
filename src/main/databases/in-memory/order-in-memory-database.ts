@@ -2,12 +2,12 @@ import { Order } from '../../../core/domain/entities/order';
 import {
   CreateOneOrderData,
   CreateOneOrderRepository,
-  LoadOrdersRepository,
+  FindOrdersRepository,
 } from '../../../core/domain/repositories/order-repository';
 import { generateId } from './in-memory-database';
 
 export class OrderInMemoryDatabase
-  implements CreateOneOrderRepository, LoadOrdersRepository
+  implements CreateOneOrderRepository, FindOrdersRepository
 {
   private readonly orders: Order[] = [];
 
@@ -37,7 +37,7 @@ export class OrderInMemoryDatabase
     return Promise.resolve(order);
   }
 
-  loadAll(): Promise<Order[]> {
+  findAll(): Promise<Order[]> {
     return Promise.resolve(this.orders);
   }
 }

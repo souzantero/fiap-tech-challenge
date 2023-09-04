@@ -5,7 +5,7 @@ import {
   FindOneProductByIdError,
   RemoveProduct,
   UpdateProduct,
-} from '../../application/use-cases/product-use-cases';
+} from '../../application/use-cases';
 import {
   BadRequestError,
   HttpController,

@@ -3,15 +3,15 @@ import {
   AddOneOrderData,
   AddOrder,
   CustomerNotFoundError,
-  LoadOrders,
   ProductsNotFoundError,
-} from '../../application/use-cases/order-use-cases';
+} from '../../application/use-cases';
 import {
   BadRequestError,
   HttpController,
   HttpRequest,
   HttpResponse,
 } from './http-controller';
+import { FindOrders } from '../../application/use-cases/find-orders';
 
 export class AddOneOrderHttpController implements HttpController<Order> {
   constructor(private readonly addOrder: AddOrder) {}
@@ -48,11 +48,11 @@ export class AddOneOrderHttpController implements HttpController<Order> {
   }
 }
 
-export class LoadOrdersHttpController implements HttpController<Order[]> {
-  constructor(private readonly loadOrders: LoadOrders) {}
+export class FindOrdersHttpController implements HttpController<Order[]> {
+  constructor(private readonly findOrders: FindOrders) {}
 
   async handle(): Promise<HttpResponse<Order[]>> {
-    const orders = await this.loadOrders.loadAll();
+    const orders = await this.findOrders.findAll();
     return HttpResponse.ok(orders);
   }
 }

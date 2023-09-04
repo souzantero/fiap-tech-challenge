@@ -70,7 +70,7 @@ export class OrderPrismaDatabase implements OrderRepository {
     return OrderPrismaDatabase.toModel(order);
   }
 
-  async loadAll(): Promise<Order[]> {
+  async findAll(): Promise<Order[]> {
     const orders = await this.prisma.order.findMany({
       include: {
         orderProducts: {
