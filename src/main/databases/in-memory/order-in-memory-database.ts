@@ -1,14 +1,12 @@
 import { Order } from '../../../core/domain/entities/order';
 import {
   CreateOneOrderData,
-  CreateOneOrderRepository,
-  FindOrdersRepository,
+  OrderRepository,
+  UpdateOneOrderData,
 } from '../../../core/domain/repositories/order-repository';
 import { generateId } from './in-memory-database';
 
-export class OrderInMemoryDatabase
-  implements CreateOneOrderRepository, FindOrdersRepository
-{
+export class OrderInMemoryDatabase implements OrderRepository {
   private readonly orders: Order[] = [];
 
   createOne(data: CreateOneOrderData): Promise<Order> {
@@ -36,6 +34,14 @@ export class OrderInMemoryDatabase
     this.orders.push(order);
 
     return Promise.resolve(order);
+  }
+
+  updateOneById(id: string, data: UpdateOneOrderData): Promise<Order> {
+    throw new Error('Method not implemented.');
+  }
+  
+  findOneById(id: string): Promise<Order | null> {
+    throw new Error('Method not implemented.');
   }
 
   findNotFinished(): Promise<Order[]> {
