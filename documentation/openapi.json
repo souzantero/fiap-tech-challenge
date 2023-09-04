@@ -504,6 +504,69 @@
           }
         }
       }
+    },
+    "/orders/{id}/paid": {
+      "get": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Verifica se um pedido foi pago",
+        "operationId": "checkOrderPaid",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Identificador único do pedido",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Pedido pago",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "paid"
+                  ],
+                  "properties": {
+                    "paid": {
+                      "type": "boolean",
+                      "example": true,
+                      "description": "Indica se o pedido foi pago"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Pedido não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {

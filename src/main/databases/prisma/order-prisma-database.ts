@@ -43,6 +43,7 @@ export class OrderPrismaDatabase implements OrderRepository {
       deletedAt: order.deletedAt,
       customerId: order.customerId,
       status,
+      paid: order.paid,
       products: order.orderProducts?.map(OrderProductPrismaDatabase.toModel),
     };
   }
@@ -52,6 +53,7 @@ export class OrderPrismaDatabase implements OrderRepository {
       data: {
         customerId: data.customerId,
         status: data.status,
+        paid: data.paid,
         orderProducts: {
           create: data.products.map((product) => ({
             productId: product.productId,
@@ -78,6 +80,7 @@ export class OrderPrismaDatabase implements OrderRepository {
       },
       data: {
         status: data.status,
+        paid: data.paid,
       },
     });
 

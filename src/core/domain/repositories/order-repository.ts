@@ -3,6 +3,7 @@ import { Order, OrderStatus } from '../entities/order';
 export type CreateOneOrderData = {
   customerId: string;
   status: OrderStatus;
+  paid: boolean;
   products: {
     productId: string;
     quantity: number;
@@ -10,7 +11,8 @@ export type CreateOneOrderData = {
 };
 
 export type UpdateOneOrderData = {
-  status: OrderStatus;
+  status?: OrderStatus;
+  paid?: boolean;
 };
 
 export interface CreateOneOrderRepository {

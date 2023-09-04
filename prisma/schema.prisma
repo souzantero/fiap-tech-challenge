@@ -57,6 +57,7 @@ model Order {
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
 
+  paid       Boolean     @default(false)
   status     OrderStatus
   customerId String
   customer   Customer    @relation(fields: [customerId], references: [id])

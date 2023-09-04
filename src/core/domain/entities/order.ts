@@ -8,6 +8,7 @@ export type Order = {
 
   customerId: string;
   status: OrderStatus;
+  paid: boolean;
 
   products?: OrderProduct[];
 };

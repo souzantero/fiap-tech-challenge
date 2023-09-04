@@ -4,6 +4,7 @@ import { FindOrders } from '../../core/application/use-cases/find-orders';
 import { Repository } from '../../core/domain/repositories/repository';
 import {
   AddOneOrderHttpController,
+  CheckOrderIsPaidHttpController,
   FindOrdersHttpController,
   UpdateOrderStatusHttpController,
 } from '../../core/presentation/controllers/order-http-controller';
@@ -28,5 +29,11 @@ export const makeUpdateOrderStatusHttpController = (repository: Repository) => {
     new UpdateOrderStatusHttpController(
       new UpdateOrder(repository.order, new FindOrders(repository.order)),
     ),
+  );
+};
+
+export const makeCheckOrderIsPaidHttpController = (repository: Repository) => {
+  return new CatchErrorHttpControllerDecorator(
+    new CheckOrderIsPaidHttpController(new FindOrders(repository.order)),
   );
 };

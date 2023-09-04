@@ -31,6 +31,7 @@ export class AddOrder {
     const order = {
       ...data,
       status: OrderStatus.Received,
+      paid: false,
     };
 
     return this.orderRepository.createOne(order);
@@ -51,4 +52,4 @@ export class ProductsNotFoundError extends Error {
   }
 }
 
-export type AddOneOrderData = Omit<CreateOneOrderData, 'status'>;
+export type AddOneOrderData = Omit<CreateOneOrderData, 'status' | 'paid'>;

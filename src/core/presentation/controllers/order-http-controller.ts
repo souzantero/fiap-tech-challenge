@@ -80,3 +80,22 @@ export class FindOrdersHttpController implements HttpController<Order[]> {
     return HttpResponse.ok(orders);
   }
 }
+
+export class CheckOrderIsPaidHttpController
+  implements HttpController<{ paid: boolean }>
+{
+  constructor(private readonly findOrders: FindOrders) {}
+
+  async handle(request: HttpRequest): Promise<HttpResponse<{ paid: boolean }>> {
+    const { id } = request.params;
+
+    try {
+      const order = await this.findOrders.findOneById(id);
+      return HttpResponse.ok({ paid: order.paid });
+    } catch (error) {
+      if (error instanceof FindOneOrderByIdError)
+        throw new BadRequestError('Order not found');
+      throw error;
+    }
+  }
+}
