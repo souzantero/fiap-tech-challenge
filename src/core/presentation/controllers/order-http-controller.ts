@@ -1,4 +1,4 @@
-import { Order } from '../../domain/models/order';
+import { Order } from '../../domain/entities/order';
 import {
   AddOneOrderData,
   AddOrder,

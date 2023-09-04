@@ -1,4 +1,4 @@
-import { Order } from '../../../core/domain/models/order';
+import { Order } from '../../../core/domain/entities/order';
 import {
   CreateOneOrderData,
   CreateOneOrderRepository,

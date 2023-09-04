@@ -1,4 +1,4 @@
-import { Customer } from '../../domain/models/customer';
+import { Customer } from '../../domain/entities/customer';
 
 export class AddOneCustomerError extends Error {
   constructor(message: string) {

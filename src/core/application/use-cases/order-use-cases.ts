@@ -1,4 +1,4 @@
-import { Order } from '../../domain/models/order';
+import { Order } from '../../domain/entities/order';
 import { CreateOneOrderData } from '../../domain/repositories/order-repository';
 
 export class CustomerNotFoundError extends Error {

@@ -1,4 +1,4 @@
-import { Order, OrderStatus } from '../../domain/models/order';
+import { Order, OrderStatus } from '../../domain/entities/order';
 import { FindOneCustomerRepository } from '../../domain/repositories/customer-repository';
 import { OrderRepository } from '../../domain/repositories/order-repository';
 import { FindManyProductsRepository } from '../../domain/repositories/product-repository';

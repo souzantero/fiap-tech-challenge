@@ -1,4 +1,4 @@
-import { Product, ProductType } from '../../domain/models/product';
+import { Product, ProductType } from '../../domain/entities/product';
 import {
   AddProduct,
   FindProducts,

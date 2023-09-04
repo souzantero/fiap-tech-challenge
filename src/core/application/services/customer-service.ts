@@ -1,4 +1,4 @@
-import { Customer } from '../../domain/models/customer';
+import { Customer } from '../../domain/entities/customer';
 import { CustomerRepository } from '../../domain/repositories/customer-repository';
 import {
   AddCustomer,

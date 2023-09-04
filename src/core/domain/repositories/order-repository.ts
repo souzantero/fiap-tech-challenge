@@ -1,4 +1,4 @@
-import { Order, OrderStatus } from '../models/order';
+import { Order, OrderStatus } from '../entities/order';
 
 export type CreateOneOrderData = {
   customerId: string;

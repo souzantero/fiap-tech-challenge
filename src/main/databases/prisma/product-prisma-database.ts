@@ -3,7 +3,7 @@ import {
   CreateOneProductData,
   ProductRepository,
 } from '../../../core/domain/repositories/product-repository';
-import { Product, ProductType } from '../../../core/domain/models/product';
+import { Product, ProductType } from '../../../core/domain/entities/product';
 import { PrismaDatabaseError } from './prisma-database';
 
 export class ProductPrismaDatabase implements ProductRepository {

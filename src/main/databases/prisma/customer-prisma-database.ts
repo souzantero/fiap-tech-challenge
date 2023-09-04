@@ -3,7 +3,7 @@ import {
   CreateOneCustomerData,
   CustomerRepository,
 } from '../../../core/domain/repositories/customer-repository';
-import { Customer } from '../../../core/domain/models/customer';
+import { Customer } from '../../../core/domain/entities/customer';
 
 export class CustomerPrismaDatabase implements CustomerRepository {
   constructor(private readonly prisma: PrismaClient) {}

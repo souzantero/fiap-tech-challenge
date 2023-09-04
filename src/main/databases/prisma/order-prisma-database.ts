@@ -12,7 +12,7 @@ import {
   Order,
   OrderProduct,
   OrderStatus,
-} from '../../../core/domain/models/order';
+} from '../../../core/domain/entities/order';
 import { PrismaDatabaseError } from './prisma-database';
 import { ProductPrismaDatabase } from './product-prisma-database';
 

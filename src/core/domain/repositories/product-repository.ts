@@ -1,4 +1,4 @@
-import { Product, ProductType } from '../models/product';
+import { Product, ProductType } from '../entities/product';
 
 export type CreateOneProductData = Omit<
   Product,

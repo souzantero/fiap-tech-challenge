@@ -1,4 +1,4 @@
-import { Customer } from '../../../core/domain/models/customer';
+import { Customer } from '../../../core/domain/entities/customer';
 import {
   CreateOneCustomerData,
   CreateOneCustomerRepository,

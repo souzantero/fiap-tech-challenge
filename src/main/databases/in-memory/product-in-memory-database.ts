@@ -1,4 +1,4 @@
-import { Product, ProductType } from '../../../core/domain/models/product';
+import { Product, ProductType } from '../../../core/domain/entities/product';
 import {
   CreateOneProductData,
   CreateOneProductRepository,

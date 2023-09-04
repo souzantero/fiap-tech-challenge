@@ -1,4 +1,4 @@
-import { Customer } from '../models/customer';
+import { Customer } from '../entities/customer';
 
 export type CreateOneCustomerData = Omit<
   Customer,
