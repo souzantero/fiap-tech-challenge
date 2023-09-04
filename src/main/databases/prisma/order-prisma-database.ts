@@ -25,7 +25,7 @@ export type OrderProductPrismaEntityWithRelations = OrderProductPrismaEntity & {
 };
 
 export class OrderPrismaDatabase implements OrderRepository {
-  constructor(private readonly prisma: PrismaClient) {}
+  constructor(private readonly prisma: PrismaClient) { }
 
   static toModel(order: OrderPrismaEntityWithRelations): Order {
     const status = Object.values(OrderStatus).find(
@@ -70,8 +70,13 @@ export class OrderPrismaDatabase implements OrderRepository {
     return OrderPrismaDatabase.toModel(order);
   }
 
-  async findAll(): Promise<Order[]> {
+  async findNotFinished(): Promise<Order[]> {
     const orders = await this.prisma.order.findMany({
+      where: {
+        status: {
+          notIn: [OrderStatus.Finished],
+        },
+      },
       include: {
         orderProducts: {
           include: {

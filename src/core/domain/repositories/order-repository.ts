@@ -14,7 +14,7 @@ export interface CreateOneOrderRepository {
 }
 
 export interface FindOrdersRepository {
-  findAll(): Promise<Order[]>;
+  findNotFinished(): Promise<Order[]>;
 }
 
 export type OrderRepository = CreateOneOrderRepository & FindOrdersRepository;
