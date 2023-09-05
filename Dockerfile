@@ -5,4 +5,5 @@ RUN npm install
 COPY . .
 RUN npx prisma generate
 RUN npm run build
+ENTRYPOINT [ "npx", "prisma", "migrate", "deploy" ]
 CMD [ "npm", "run", "start" ]
