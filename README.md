@@ -69,6 +69,36 @@ Execute o serviço Docker Compose para iniciar o servidor Node.js.
 docker-compose up -d server
 ```
 
+## Como executar o ecossistema utilizando o Kubernetes em um cluster local
+
+### Preparação
+
+Antes de prosseguir, certifique-se de estar na raiz do projeto.
+
+### Iniciar o Banco de Dados
+
+Para iniciar o banco de dados, execute os seguintes comandos:
+
+```bash
+kubectl apply -f ./kubernetes/database/config-map.yaml
+kubectl apply -f ./kubernetes/database/secret.yaml
+kubectl apply -f ./kubernetes/database/persistent-volume.yaml
+kubectl apply -f ./kubernetes/database/pod.yaml
+kubectl apply -f ./kubernetes/database/service.yaml
+```
+
+### Iniciar o Servidor
+
+Agora, para iniciar o servidor, execute:
+
+```bash
+kubectl apply -f ./kubernetes/server/config-map.yaml
+kubectl apply -f ./kubernetes/server/deployment.yaml
+kubectl apply -f ./kubernetes/server/service-node-port.yaml
+```
+
+Este arquivo contém as instruções para configurar e executar o ecossistema utilizando o Kubernetes. Certifique-se de seguir todos os passos cuidadosamente.
+
 ## Open API
 
 Para acessar o painel Open API e visualizar os endpoints disponíveis na API. 
