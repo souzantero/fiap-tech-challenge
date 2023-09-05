@@ -2,7 +2,7 @@ import { Server } from 'node:http';
 import express, { Router } from 'express';
 import swagger from 'swagger-ui-express';
 
-import openapi from '../../documentation/openapi.json';
+import openapi from './documentation/openapi.json';
 import { Repository } from '../core/domain/repositories/repository';
 import { customerRoutes } from './routes/customer-routes';
 import { productRoutes } from './routes/product-routes';
