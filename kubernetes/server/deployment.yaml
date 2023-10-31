@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: server-container
-          image: souzantero/fiap-tech-challenge-server:latest
+          image: 074161922676.dkr.ecr.us-west-2.amazonaws.com/fiap-tech-challenge-server:latest
           resources:
             limits:
               memory: '128Mi'
