@@ -33,11 +33,12 @@ jobs:
 
       - name: Login to AWS ECR
         run: |
-          aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin 074161922676.dkr.ecr.us-west-2.amazonaws.com
+          aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: us-west-2
+          AWS_ACCOUNT_ID: '074161922676'
 
       - name: Push Docker Image to ECR
         run: |
@@ -53,10 +54,10 @@ jobs:
       - name: Deploy to EKS
         run: |
           aws eks update-kubeconfig --name $EKS_CLUSTER_NAME --region $AWS_REGION
-          kubectl apply -f /kubernetes/server/config-map.yaml
-          kubectl apply -f /kubernetes/server/deployment.yaml
-          kubectl apply -f /kubernetes/server/autoscaler.yaml
-          kubectl apply -f /kubernetes/server/service-load-balancer.yaml
+          kubectl apply -f ./kubernetes/server/config-map.yaml
+          kubectl apply -f ./kubernetes/server/deployment.yaml
+          kubectl apply -f ./kubernetes/server/autoscaler.yaml
+          kubectl apply -f ./kubernetes/server/service-load-balancer.yaml
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
