@@ -47,7 +47,7 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: us-west-2
-          AWS_ACCOUNT_ID: 074161922676
+          AWS_ACCOUNT_ID: '074161922676'
           ECR_REPOSITORY_NAME: fiap-tech-challenge-server
 
       - name: Deploy to EKS
