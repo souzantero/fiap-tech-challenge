@@ -62,5 +62,5 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: us-west-2
-          EKS_CLUSTER_NAME: fiap-tech-challenge-eks-X6ro
+          EKS_CLUSTER_NAME: fiap-tech-challenge-eks-lXPi
 
