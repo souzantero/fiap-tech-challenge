@@ -12,7 +12,7 @@ export const customerRoutes = (router: Router, repository: Repository) => {
     adaptRoute(makeAddOneCustomerHttpController(repository)),
   );
   router.get(
-    '/customers/documents/:document',
+    '/customers/document/:document',
     adaptRoute(makeFindOneCustomerHttpController(repository)),
   );
 };
